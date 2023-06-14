@@ -70,7 +70,7 @@ const CheckReactRepoMiddleware=async(req,res,next)=>{
   // console.log(link)
   if(!link)return res.send("empty ")
     try {
-        console.log(link)
+        // console.log(link)
         const regexlink = /github.com\/([\w-]+)\/([\w-]+)/;
         // !extracting owener name and repo name
         const match = link.match(regexlink);
@@ -196,9 +196,7 @@ const Get_User=async(req,res)=>{
   try{
     const {uid}=req.body;
     // console.log(req.body)
-    const result=await UserModel.findOne({Uid:uid},{Refreshtoken:0,Password:0})
-    // console.log(result)
-    // (result)
+    const result=await userModel.findOne({Uid:uid},{Refreshtoken:0,Password:0})
     return res.status(200).send({user:result})
   }catch(e){
     res.status(500).send({message:"Internal Server Error",type:2})
@@ -237,8 +235,8 @@ const userFollow=async(req,res)=>{
   // console.log(req.params);
   console.log(req.params,"params")
   try{
-    const login_user_detail=await UserModel.findOne({Uid:Login_user_id})
-    const user_detail=await UserModel.findOne({Uid:Uid})
+    const login_user_detail=await userModel.findOne({Uid:Login_user_id})
+    const user_detail=await userModel.findOne({Uid:Uid})
     console.log(login_user_detail.Username,user_detail.Username)
     // console.log(user_detail,"userdetails")
     if(type==="0")
