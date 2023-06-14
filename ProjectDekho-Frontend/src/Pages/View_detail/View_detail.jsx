@@ -199,7 +199,7 @@ function View_detail() {
       try {
         setLoaded(true);
         const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/Get_ParticularProject`, { _id })
-        console.log(result.data.project)
+        console.log(result.data,"Data")
         setData(prev => ({ ...prev, ...result.data.project }))
         setlikecount(result.data.project.likePeople.length)
         const userresult = await axios.post(`${process.env.REACT_APP_PROXY}/User/Get_User`, { uid: uid })

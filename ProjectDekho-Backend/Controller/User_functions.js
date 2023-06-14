@@ -21,6 +21,7 @@ const AddProject = async (req, res) => {
       let value=(Github_react!=="" && Github_node!=="")
       const uploader_user= await userModel.findOne({Uid:Uid})
       // console.log(uploader_user)
+      let latest_id="";
       cloudinary.v2.uploader.upload(file.tempFilePath, (err, result) => {
         if(err)console.log(err)
         const new_document = new ProjectModel({
@@ -39,14 +40,19 @@ const AddProject = async (req, res) => {
             Minprice:parseInt(Minprice),
             Maxprice:parseInt(Maxprice),
           })
-          // if(uploader_user.Followers)
-          // {
-            new_document.save();
+          new_document.save()
+          .then(savedDocument => {
+            latest_id=savedDocument._id;
+            console.log(latest_id);
+            // Use the generatedId as needed
+          })
+          .catch(error => {
+            console.log("error while saving new project",error)
+          });
           }) 
-          // console.log(uploader_user.Following);
-          // console.log("sjdsdkfj");
+          
           console.log(uploader_user.Followers)
-           sendMailToSubscribers(uploader_user.Gmail,uploader_user.Followers,uploader_user.Username,uploader_user.Uid,uploader_user._id)
+           sendMailToSubscribers(uploader_user.Gmail,uploader_user.Followers,uploader_user.Username,uploader_user.Uid,latest_id)
           res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
     } catch (e) {
       console.log(e.message)
