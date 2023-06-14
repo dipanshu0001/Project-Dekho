@@ -43,26 +43,26 @@ function View_detail() {
     likePeople: [],
     comments: [],
     Image: ""
-
+    
   }); //! STORING CARD DETAILS USER CLICKED TO VIEW DETAILS ON
   const [userdata, setUser] = useState({
     Followers: []
   }); //! STORING CARD OWNER DETAILS
-
+  
   const [isFollowing, setfollowing] = useState(false);
   const [reloadComponent, setreload] = useState(0);
   const [likecount, setlikecount] = useState(0);
 
-
+  
   //! IF USER LIKE A PROJECT THEN CALLING TO INCREASE LIKE AND STORE ID IN BACKEND
   const increase_like = async () => {
     try {
       // console.log("called")
       setlikecount(prev => prev + 1)
-      const result = await axios.post(`http://localhost:4000/Api/Projects/likecount/${data._id}/${1}/${userstate.Uid}`);
+      const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/likecount/${data._id}/${1}/${userstate.Uid}`);
       setlikecount(prev => result.data.count)
       setProjectcounter(prev => prev + 1)
-
+      
     } catch (e) {
       console.log(e.response.data)
     }
@@ -89,7 +89,7 @@ function View_detail() {
     if (value === true) {
       try {
         setOpen(true);
-        const result = await axios.post('http://localhost:4000/Api/User/SaveProject', { Uid: userstate.Uid, _id });
+        const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/SaveProject`, { Uid: userstate.Uid, _id });
         setOpen(false);
         set_err(result.data.message, result.data.type);
         Dispatch(UpdateSavedProjects(result.data.newSavedProjects));
@@ -103,7 +103,7 @@ function View_detail() {
     else {
       try {
         setOpen(true);
-        const result = await axios.post('http://localhost:4000/Api/User/unSaveProject', { Uid: userstate.Uid, _id });
+        const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/unSaveProject`, { Uid: userstate.Uid, _id });
         setOpen(false);
         set_err(result.data.message, result.data.type);
         Dispatch(UpdateSavedProjects(result.data.newSavedProjects));
@@ -111,7 +111,7 @@ function View_detail() {
       } catch (err) {
         setOpen(false);
         set_err(err.response.data.message, err.response.data.type);
-
+        
       }
     }
     // setSaved(prev => value)
@@ -120,14 +120,14 @@ function View_detail() {
   const increase_dislike = async () => {
     try {
       setlikecount(prev => prev - 1)
-      const result = await axios.post(`http://localhost:4000/Api/Projects/likecount/${data._id}/${0}/${userstate.Uid}`);
+      const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/likecount/${data._id}/${0}/${userstate.Uid}`);
       setlikecount(prev => result.data.count)
       setProjectcounter(prev => prev + 1)
 
 
       socket.emit("like", { from: userstate.Username, to: cardstate.Username });
       // console.log(`${userstate.Username} like ${cardstate.Username} post`)
-
+      
     } catch (e) {
       console.log(e.response.data)
     }
@@ -141,7 +141,7 @@ function View_detail() {
     setDisliked(1)
     increase_dislike();
   }
-
+  
 
   const handlechat = () => {
     navigate('/chat');
@@ -152,10 +152,13 @@ function View_detail() {
       navigate('/login')
     }
     console.log("followed was called")
-    if (userstate.Uid === uid) return
+    if (userstate.Uid === uid) {
+      set_err("You can not Follow yourself ", 2);
+      return
+    }
     try {
       setOpen(true)
-      const result = await axios.post(`http://localhost:4000/Api/User/Followers/${userstate.Uid}/${0}/${uid}`)
+      const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${0}/${uid}/false/${userstate.Gmail}`)
       console.log(result.data)
       Dispatch(UpdateFollowing(result.data.new_list))
       setOpen(false);
@@ -172,19 +175,19 @@ function View_detail() {
 
     try {
       setOpen(true)
-      const result = await axios.post(`http://localhost:4000/Api/User/Followers/${userstate.Uid}/${1}/${uid}`)
+      const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${1}/${uid}/false/${userstate.Gmail}`)
       Dispatch(UpdateFollowing(result.data.new_list))
       setOpen(false);
       set_err(result.data.message, result.data.type);
       setfollowing(false)
-
+      
     } catch (err) {
       console.log(err);
       setOpen(false);
     }
   }
 
-
+  
   useEffect(() => {
     // console.log("Socket : ", socket);
     socket.emit("userjoin", userstate.Username);
@@ -192,13 +195,14 @@ function View_detail() {
   useEffect(() => {
     const get_data = async () => {
       // console.log(uid, _id)
+      console.log(_id,uid)
       try {
         setLoaded(true);
-        const result = await axios.post("http://localhost:4000/Api/Projects/Get_ParticularProject", { _id })
+        const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/Get_ParticularProject`, { _id })
         // console.log(result.data.project)
         setData(prev => ({ ...prev, ...result.data.project }))
         setlikecount(result.data.project.likePeople.length)
-        const userresult = await axios.post("http://localhost:4000/Api/User/Get_User", { uid: uid })
+        const userresult = await axios.post(`${process.env.REACT_APP_PROXY}/User/Get_User`, { uid: uid })
 
         setUser(prev => ({ ...prev, ...userresult.data.user }))
         Dispatch(set_Username(userresult.data.user.Username));
@@ -210,7 +214,7 @@ function View_detail() {
     }
     const getAllProjects = async () => {
       try {
-        const result = await axios.get("http://localhost:4000/Api/Projects/allProjects/6");
+        const result = await axios.get(`${process.env.REACT_APP_PROXY}/Projects/allProjects/6`);
 
         setrecommended(result.data)
       } catch (e) {
@@ -221,7 +225,7 @@ function View_detail() {
     get_data();
     const get_liked = async () => {
       try {
-        const result = await axios.post('http://localhost:4000/Api/Projects/Already_liked', { user_uid: userstate.Uid, _id })
+        const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/Already_liked`, { user_uid: userstate.Uid, _id })
         // console.log(result.data.like, `${Name}`)
         setLiked(result.data.like);
       } catch (err) {
@@ -239,14 +243,10 @@ function View_detail() {
     if (following !== undefined) {
       // console.log(userstate.Username)
       setfollowing(true);
-
-
     }
 
-  }, [reloadComponent]);
+  }, [reloadComponent,isFollowing]);
   return (
-
-
     <>
       {
         isloaded ? (
@@ -420,7 +420,7 @@ function View_detail() {
               </div>
             </div>
             <div className="user-profile-div">
-              <User_profile uid={uid} onFollow={handleFollow} onUnFollow={handleunFollow} isFollowing={isFollowing}/>
+              <User_profile uid={uid} onFollow={handleFollow} onUnFollow={handleunFollow} isFollowing={isFollowing} setfollowing={setfollowing}/>
             </div>
           </div>
 

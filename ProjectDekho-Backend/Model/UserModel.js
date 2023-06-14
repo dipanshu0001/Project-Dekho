@@ -64,6 +64,13 @@ const UserModelSchema = new mongoose.Schema({
             Date: {
                 type: Date,
                 default: Date.now
+            },
+            issubscribe: {
+                type: Boolean,
+                default: false
+            },
+            Gmail:{
+                type:String
             }
         }
     ],
@@ -136,12 +143,13 @@ UserModelSchema.methods.handleUnSave = async function (_id) {
         console.log(error)
     }
 }
-UserModelSchema.methods.handleFollowers = async function (_id) {
+UserModelSchema.methods.handleFollowers = async function (uid,Gmail) {
     try {
 
         const new_follower =
         {
-            User_id: _id
+            User_id: uid,
+            Gmail
         }
         this.Followers.push(new_follower);
         await this.save();
@@ -151,9 +159,32 @@ UserModelSchema.methods.handleFollowers = async function (_id) {
         console.log("error while handleFollowers", err);
     }
 }
-UserModelSchema.methods.handleUnFollowers = async function (_id) {
+UserModelSchema.methods.handleSubscribeBoth = async function (uid, issubscribe,Gmail) {
     try {
-        this.Followers = this.Followers.filter(item => item.User_id !== _id);
+
+        let already_follower_index = this.Followers.findIndex(ele => ele['User_id'] === uid)
+        if (already_follower_index == -1) {
+            const new_follower =
+            {
+                User_id: uid,
+                issubscribe: issubscribe==="true"?true:false,
+                Gmail
+            }
+            this.Followers.push(new_follower);
+        }
+        else{
+            this.Followers[already_follower_index].issubscribe=issubscribe==="true"?true:false;
+        }
+        await this.save();
+        return this.Followers;
+    }
+    catch (err) {
+        console.log("error while handleFollowers", err);
+    }
+}
+UserModelSchema.methods.handleUnFollowers = async function (uid,Gmail) {
+    try {
+        this.Followers = this.Followers.filter(item => item.User_id !== uid);
         await this.save();
         return this.Followers;
     }
@@ -168,11 +199,11 @@ UserModelSchema.methods.handleFollowing = async function (Uid, ProfileImage, Use
             ProfileImage,
             Username
         }
-        const already = this.Following.find(ele => ele.User_id == Uid)
-        if (already !== undefined) {
+        let already = this.Following.find(ele => ele.User_id == Uid)
+        if (already == undefined) {
             this.Following.push(new_following);
-            await this.save();
         }
+        await this.save();
         return this.Following;
     }
     catch (err) {

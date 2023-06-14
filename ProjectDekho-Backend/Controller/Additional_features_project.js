@@ -1,6 +1,17 @@
 const userModel = require('../Model/UserModel')
 const projectModel = require('../Model/UserProject')
+const nodemailer = require("nodemailer");
 
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    port: 465,
+    host: 'smtp.gmail.com',
+    auth: {
+        user: process.env.GMAIL,
+        pass: process.env.GOOGLE_APPLICATION_PASSWORD
+    },
+    secure: true
+});
 const getTopLiked = async (req, res) => {
     try {
         const result = await projectModel.aggregate([
@@ -80,7 +91,7 @@ const getData = async (req, res) => {
                 Viewedcount: { $size: "$Vieweduser" },
                 _id: 0
             }
-        })  
+        })
         if (sortBy == "Viewcount low to high") {
             pipline.push({
                 $sort: {
@@ -116,10 +127,34 @@ const getData = async (req, res) => {
     }
     // console.log(req.body)
 }
+
+const sendMailToSubscribers = (subscribedmail, subscriberdarray, Username, uid, _id) => {
+    console.log(subscribedmail, subscriberdarray, "function ke ander")
+    let url = `http://localhost:3000/Project/${_id}/${uid}`
+    subscriberdarray.forEach(user => {
+        const mailOptions = {
+            from: subscribedmail,
+            to: user.Gmail,
+            subject: 'New Article Notification',
+            html: `<p>A new Project has been uploaded by ${Username}. Read it <a href=${url}>here</a>.</p>`
+        };
+        console.log(user.Gmail)
+        if (user.issubscribe == true) {
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(`Email sending failed to ${user.Gmail}:`, error);
+                } else {
+                    console.log(`Email sent successfully to ${user.Gmail}:`, info.response);
+                }
+            });
+        }
+    });
+}
 module.exports = {
     getTopLiked,
     getDistinctIndustry,
-    getData
+    getData,
+    sendMailToSubscribers
 }
 // {
 //     $sort: {

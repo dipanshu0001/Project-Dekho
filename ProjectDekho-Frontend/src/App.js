@@ -46,14 +46,9 @@ const App = () => {
       try {
         const result = await axios.post("https://project-dekho-backend.vercel.app/Api/RefreshToken", {}, { withCredentials: true });
         const { data: resdata } = result;
-        // console.log(resdata.user, "details");
         dispatch(Login_User({ accesstoken: resdata.accesstoken, ...resdata.user }));
-        // setValidate(true);
-        // navigate('/');
       } catch (e) {
         console.log(e.message)
-        // setLoading(false)
-        // setValidate(true)
       }
     }
     const checkLocation = () => {
