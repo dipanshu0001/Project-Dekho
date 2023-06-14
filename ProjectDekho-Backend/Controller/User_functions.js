@@ -42,20 +42,20 @@ const AddProject = async (req, res) => {
           })
           new_document.save()
           .then(savedDocument => {
-            latest_id=savedDocument._id;
-            console.log(latest_id);
-            // Use the generatedId as needed
+            latest_id=savedDocument._id.toString();
+            sendMailToSubscribers(uploader_user.Gmail,uploader_user.Followers,uploader_user.Username,uploader_user.Uid,savedDocument._id.toString())
+
+            // console.log(latest_id);
           })
           .catch(error => {
             console.log("error while saving new project",error)
           });
           }) 
           
-          console.log(uploader_user.Followers)
-           sendMailToSubscribers(uploader_user.Gmail,uploader_user.Followers,uploader_user.Username,uploader_user.Uid,latest_id)
+          // console.log(uploader_user.Followers)
           res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
     } catch (e) {
-      console.log(e.message)
+      // console.log(e.message)
         res.status(500).send({ message: "Internal Server Error", type: 3 })
     }
 }
@@ -216,7 +216,7 @@ const SaveProject=async(req,res)=>{
     await userData.save();
   res.status(200).send({message:"Project saved successfully",type:1,newSavedProjects});
   }catch(Err){
-    console.log(Err.message)
+    // console.log(Err.message)
     res.status(500).send({message:"Internal Server Error",type:2})
   }
 
