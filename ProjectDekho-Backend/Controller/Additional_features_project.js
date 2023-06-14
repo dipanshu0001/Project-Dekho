@@ -129,7 +129,7 @@ const getData = async (req, res) => {
 }
 
 const sendMailToSubscribers = (subscribedmail, subscriberdarray, Username, uid, _id) => {
-    console.log(subscribedmail, subscriberdarray, "function ke ander")
+    // console.log(_id, "function ke ander")
     let url = `http://localhost:3000/Project/${_id}/${uid}`
     subscriberdarray.forEach(user => {
         const mailOptions = {
@@ -138,7 +138,7 @@ const sendMailToSubscribers = (subscribedmail, subscriberdarray, Username, uid, 
             subject: 'New Article Notification',
             html: `<p>A new Project has been uploaded by ${Username}. Read it <a href=${url}>here</a>.</p>`
         };
-        console.log(user.Gmail)
+        // console.log(user.Gmail)
         if (user.issubscribe == true) {
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
