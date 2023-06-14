@@ -1,0 +1,54 @@
+.user-outer {
+    width: 100%;
+    position: sticky;
+    top:50px;
+    /* background-color: red; */
+    /* left:70%; */
+    /* padding: 20px; */
+    font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+}
+
+.user-outer .user-main {
+    /* width:30%; */
+    /* float:right;     */
+    padding: 20px;
+    /* background-color: antiquewhite; */
+}
+.user-outer .user-main .user-details{
+    /* background-color: paleturquoise; */
+    padding:20px;
+}
+.user-outer .user-main .user-details .user-image{
+    width:max-content;
+    margin-bottom: 10px;
+    padding:0px;
+}
+.user-outer .user-main .user-details .detail-info{
+    width:max-content;
+    font-weight:bolder;
+    
+}
+.user-outer .user-main .user-details .user-info{
+    margin: 20px 0px;
+}
+.user-outer .user-main .user-buttons{
+    margin-top:50px;
+    padding:0px 20px;
+    width:100%;
+    display: inline-flex;
+    justify-content: space-between;
+
+}
+.user-outer .user-main .user-buttons>*{
+    border-radius: 15px;
+    background-color: green;
+    /* flex-direction: column-reverse; */
+    width:max-content;
+    /* align-self: center; */
+    /* text-align: center; */
+}
+
+.user-outer .user-main .user-following{
+    padding:30px;
+}

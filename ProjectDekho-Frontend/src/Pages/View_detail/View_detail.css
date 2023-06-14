@@ -1,0 +1,213 @@
+.view-outer-display{
+    display: flex;
+    justify-content: space-between;
+    padding:20px;
+    /* height:auto; */
+    /* background-color: yellow; */
+}
+
+
+.view-outer {
+    display: block;
+    /* width: 90%; */
+    flex:3 1 auto;
+    margin: 0px auto;
+    padding:20px;
+}
+.view-outer-display .user-profile-div{
+    flex:1 1 auto;
+    /* background:yellow; */
+    background-color: whitesmoke;
+    border-left:1px dotted grey;
+    align-items: stretch;
+}
+
+.comment-dvi {
+    max-height: 0px;
+    transition: all 1000ms ease;
+    z-index: -1;
+}
+.comment-main {
+    opacity: 1;
+    /* display: flex; */
+    visibility: visible;
+    width: 100%;
+    /* max-height: 500px; */
+    padding: 0px 20px;
+    /* position: relative; */
+    height: auto;
+    transition: all 300ms ease-out;
+
+}
+.comment-user {
+    position: sticky;
+    /* width: 40%; */
+    width:100%;
+    z-index:10;
+    height:fit-content;
+    top:0px;
+    left:0px;
+    right:0px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: white;
+    align-items: center;
+    padding: 10px 0px;
+}
+.user-detail {
+    height: 50px;
+    width: 90%;
+    /* margin: 0px 10px; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: yellowgreen; */
+    margin: auto;
+}
+
+.user-detail .img-div{
+    height:50px;
+    width:50px;
+    border-radius: 99px;
+    /* background-color: gray; */
+}
+.comment-user  .comment-input textarea {
+    /* margin:auto; */
+    width: 100%;
+    /* margin: 0px 10px; */
+    padding: 10px;
+    resize: none;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+
+}
+.comment-main .comment-user .user-btn{
+    width:90%;
+    display: flex;
+    margin:auto;
+    justify-content: space-between  ;
+    align-items: center;
+}
+.comment-main .comment-display {
+    /* position: absolute !important; */
+    /* width:50%; */
+    width:100%;
+    margin-right: 0px;
+    margin-top:10px;
+    display: block;
+    /* height: 1000px; */
+    overflow: auto;
+    /* background-color: gray; */
+}
+.shake {
+    animation: shake 1s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(2px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-2deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(3deg);
+    }
+
+    30% {
+        transform: translate(0px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(2px, 1px) rotate(-2deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(4deg);
+    }
+
+    90% {
+        transform: translate(2px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+.view-outer .like-section{
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+}
+.view-outer .like-section .like-comment-div{
+    display: flex;
+    width:50%;
+    align-items: center;
+}
+.view-outer .like-section .like-comment-div>*{
+    display: flex;
+    width: 33%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.view-outer .like-section .saved-section{
+    width:30%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.view-outer .projectimage-div{
+    width:100%;
+    padding:20px;
+    margin:auto;
+}
+.view-outer .view-details{
+    width:100%;
+}
+.view-outer .view-details ul{
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+}
+.view-outer .view-details ul li{
+    display: flex;
+    flex-direction: column;
+}
+.view-outer .tech-stack {
+    box-sizing: border-box;
+    padding:30px;
+}
+.view-outer .tech-stack .info{
+    text-align:left;
+    margin: 10px;
+
+}
+.others-div{
+    padding:20px;
+    width:100%;
+    
+    /* background-color: rgb(250, 250, 250); */
+}
+.others-div .others-main{
+    width:90%;
+    margin:auto;
+    padding:20px;
+     
+}

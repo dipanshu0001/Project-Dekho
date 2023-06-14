@@ -1,0 +1,10 @@
+.skeleton-main{
+    /* flex:3 1 auto; */
+    display: grid;
+    grid-template-columns: repeat(2,50%);
+    gap:5px;
+}
+
+.skeleton-main .skeleton-box{
+    height:350px;
+}

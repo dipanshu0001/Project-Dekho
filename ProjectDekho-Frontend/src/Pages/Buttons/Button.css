@@ -1,0 +1,11 @@
+
+  .liner-color{
+    position: relative;
+    overflow: hidden;
+    margin:5px;
+    padding:12  px;
+    background: linear-gradient(to right, rgb(192, 38, 211), rgb(219, 39, 119));
+    border:none !important;
+  }
+
+  

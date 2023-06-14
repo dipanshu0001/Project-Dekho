@@ -1,0 +1,24 @@
+.modal .modal-body 
+{    
+    overflow-y: auto;
+    max-height:550px;
+  }
+  
+  input::placeholder,textarea::placeholder{
+    color:rgb(93, 91, 91);
+  }
+*:focus{
+    outline: none;
+}
+  @media only screen and (max-width:300px){
+    .input-flex{
+        flex-direction: column;
+        width:100%
+    }
+    
+    .input-flex>*{
+        flex-direction: column;
+        width:100%
+    }
+    
+  }

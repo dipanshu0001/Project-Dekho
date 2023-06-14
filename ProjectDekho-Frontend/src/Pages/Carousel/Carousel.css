@@ -1,0 +1,116 @@
+.carousel-main {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-main .item-main{
+    width: 100%;
+    margin: auto;
+    /* display: flex; */
+    height: 100%;
+    height:350px;
+    /* justify-content: space-between; */
+    /* flex-direction: column-reverse; */
+    /* position:absolute; */
+    /* height:100%; */
+    /* background-color: yellowgreen; */
+}
+
+
+
+.carousel-main .image-div {
+    width: 90%;
+    height:70%;
+    /* background-color: yellow; */
+    margin: auto;
+    
+    z-index:2;
+    position: relative;
+    transition:opacity 1s linear infinite;
+    
+}
+
+.carousel-main .image-div::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    height: 100%;
+    z-index:-1;
+    border-radius: 8px;
+    transition: .3s;
+    pointer-events: none;
+    top: 18px;
+    left: 0px;
+    right:0px;
+    width: calc(92%);
+    margin:auto;
+    opacity: 1;
+    transition:opacity 1s linear infinite;
+    background-color: hsla(0,0%,100%,.6);
+}
+
+
+.carousel-main .image-div::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    height: 100%;
+    z-index:-1;
+    border-radius: 8px;
+    transition: .3s;
+    pointer-events: none;
+    top: 10px;
+    left: 0px;
+    right:0px;
+    width: calc(96%);
+    opacity: 1;
+    transition:opacity 1s linear infinite;
+    margin:auto;
+    background-color: hsla(0,0%,100%,.6);
+    /* background-color: hsla; */
+}
+.carousel-main .image-div:hover::before{
+    opacity: 0;
+}
+.carousel-main .image-div:hover::after{
+    opacity: 0;
+}
+
+.carousel-main .image-div img {
+    /* object-fit: contain; */
+    /* position: absolute; */
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.slides {
+    position: relative;
+    width: 100%;
+    z-index: 5;
+    height: 100%;
+    height: inherit !important;
+    display: inline-block;
+    padding: 20px;
+}
+
+.slick-list{
+    margin-top: 3rem;
+}
+
+.slider-arrow {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .arrow-btn {
+    top: 90%;
+  }
+.carousel-main .content-main{
+    text-align: center;
+    height:40%;
+    color:white
+    /* background-color: red; */
+}

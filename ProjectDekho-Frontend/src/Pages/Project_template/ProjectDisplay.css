@@ -1,0 +1,470 @@
+.display-outer {
+    width: 100%;
+    padding-top: 10px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 5px 2px gray;
+    -moz-box-shadow: 0 0 5px 2px gray;
+    box-shadow: 0 0 5px 2px gray;
+    margin-top: 20px;
+    background-color: whitesmoke;
+    /* background-color: cyan; */
+}
+
+.btn-color {
+    background-image: linear-gradient(to right, rgb(192, 38, 211), rgb(219, 39, 119));
+}
+
+.speeddial {
+    visibility: hidden;
+}
+
+p {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.display-outer .display-main {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    /* background-color: green; */
+    justify-content: space-between;
+}
+
+.display-outer .display-btns {
+    /* background-color: cyan; */
+    width: 100%;
+    height: 50px;
+}
+
+.display-outer .display-main .display-left {
+    width: 30%;
+    min-width: 20%;
+    padding: 10px;
+    /* position: relative; */
+    /* height:max-content; */
+    /* background-color: yellowgreen; */
+    /* height: fit-content; */
+}
+
+.fullstack-btn {
+    position: absolute;
+    top: 10px;
+    /* margin:10px 15px; */
+    right: 10px;
+    /* right:10px; */
+    /* z-index:5; */
+}
+
+
+.display-outer .display-main .display-right {
+    width: 68%;
+    /* min-height: 350px; */
+    /* min-width: 20%; */
+    /* padding: 10px; */
+    /* background-color: green;     */
+    /* height: fit-content; */
+}
+
+.display-outer .display-main .display-left .img-section {
+    height: 250px;
+    /* background-position: center; */
+    position: relative;
+    margin: auto;
+    text-align: center;
+    overflow: hidden;
+    width: fit-content;
+    z-index: 4;
+}
+
+.display-outer .display-main .display-left .img-section img {
+    width: 100%;
+    object-fit: cover;
+    /* background-position: center; */
+    height: 100%;
+    transform: scale(1);
+    border-radius: 8px;
+    transition: all 500ms ease;
+}
+
+.display-outer .display-main .display-left .img-section img:hover {
+    transform: scale(1.1);
+    border-radius: 8px;
+
+}
+
+
+.display-outer .display-main .display-left .like-dislike-btn {
+    /* height:10%; */
+    text-align: center;
+    font-size: medium;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* padding: 5px 0px; */
+    margin-top: 10px;
+    /* background-color: red; */
+    z-index:10;
+}
+
+.display-outer .display-main .display-left .like-dislike-btn>* {
+    width: 50%;
+}
+
+
+.MuiButtonBase-root:hover {
+    background: "linear-gradient(to right, rgb(233, 213, 255), rgb(192, 132, 252), rgb(107, 33, 168))";
+}
+
+.display-outer .display-main .display-left .like-dislike-btn .shake {
+    animation: shake 1s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(2px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-2deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(3deg);
+    }
+
+    30% {
+        transform: translate(0px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(2px, 1px) rotate(-2deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(4deg);
+    }
+
+    90% {
+        transform: translate(2px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+.display-outer .display-main .display-right> .display-details{
+    width: 100%;
+    /* background-color:yellowgreen; */
+    display: flex;
+    /* padding: 10px; */
+    min-height:300px;
+}
+.display-outer .display-main .display-right  .display-price {
+    width: 20%;
+    /* padding: 10px; */
+    text-align: right;
+    font-size: large;
+    font-weight: bolder;
+    color: gray;
+    display: flex;  
+    align-items: center;
+}
+
+.display-outer .display-main .display-right  .display-price .price {
+    flex:1;
+    display: flex;  
+    align-items: center;
+    text-align: right;
+    justify-content: right;
+    font-size:50px;
+    color: black;
+}
+
+
+
+.display-outer .display-main .display-right  .detail-section {
+    width: 80%;
+    /* background-color:red; */
+}
+
+.display-outer .display-main .display-right  .detail-section .name-verfied {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+}
+
+.display-outer .display-main .display-right  .detail-section .name-verfied .name-value {
+    text-decoration: none;
+    /* color:white; */
+    font-weight: bolder;
+    font-size: large;
+}
+
+.display-outer .display-main .display-right  .detail-section .name-verfied>* {
+    margin: 10px;
+}
+
+.display-outer .display-main .display-right  .detail-section .name-verfied .verfied-icon {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    background-color: gray;
+    padding: 5px;
+}
+
+.display-outer .display-main .display-right  .detail-section .name-verfied .verfied-icon>* {
+    margin: 0px 5px;
+    /* color:gray; */
+}
+
+.display-outer .display-main .display-right .display-btns {
+    width: 100%;
+    /* background-color:red; */
+    height: 50px;
+    /* padding: 10px; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.display-outer .display-main .display-right .display-btns .comment-section {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.display-outer .display-main .display-right .display-btns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: auto;
+
+}
+
+
+
+.display-outer .display-main .display-right  .display-details-main {
+    /* background-color:green; */
+    display: flex;
+    width: 100%;
+    /* grid-template-columns: repreat(4,25%); */
+}
+
+.display-outer .display-main .display-right  .display-details-main  {
+    width: 100%;
+    /* background-color:yellow;     */
+}
+
+.display-outer .display-main .display-right  .display-details-main  .display-table {
+    width: 100%;
+    /* background-color:green; */
+}
+
+.display-outer .display-main .display-right  .display-details-main  .display-table th,
+td {
+    /* padding:10px; */
+}
+
+.display-outer .display-main .display-right  .display-details-main  .display-description {
+    text-align: left;
+    padding: 10px 5px;
+    /* background-color:pink; */
+}
+
+
+
+.display-outer .comment-div {
+    max-height: 0px;
+    transition: all 1000ms ease;
+    z-index:-1;
+}
+
+.display-outer .show-comment {
+    /* grid-template-rows: 1fr; */
+    /* display: block; */
+    max-height: 25000px;
+    z-index:-1;
+    transition: all 1000ms ease;
+    /* overflow:auto; */
+    /* background-color: red; */
+
+}
+
+.display-outer .comment-div .comment-hide{
+    opacity: 0;
+    z-index:-1;
+    /* display: none; */
+    visibility: hidden;
+    transition: all 300ms ease-out;
+}
+
+.display-outer .comment-div .comment-main {
+    opacity: 1;
+    /* display: flex; */
+    visibility: visible;
+    width: 100%;
+    /* max-height: 500px; */
+    padding: 0px 20px;
+    /* position: relative; */
+    height: auto;
+    transition: all 300ms ease-out;
+
+}
+
+.display-outer .comment-div .comment-main .comment-user {
+    position: sticky;
+    /* width: 40%; */
+    width:100%;
+    z-index:10;
+    height:fit-content;
+    top:70px;
+    left:0px;
+    right:0px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: white;
+    align-items: center;
+    padding: 10px 0px;
+}
+
+
+
+.display-outer .comment-div .comment-main .comment-user  .user-detail {
+    height: 50px;
+    width: 90%;
+    /* margin: 0px 10px; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: yellowgreen; */
+    margin: auto;
+}
+.display-outer .comment-div .comment-main .comment-user  .user-detail .img-div{
+    height:50px;
+    width:50px;
+    border-radius: 99px;
+    /* background-color: gray; */
+}
+.display-outer .comment-div .comment-main .comment-user  .user-detail .user-name{
+    height:20px;
+    align-self: center;
+    margin-left:10px;
+    /* background-color: gray; */
+}
+.display-outer .comment-div .comment-main .comment-user  .comment-input {
+    margin:auto ;
+    width: 90%;
+}
+
+.display-outer .comment-div .comment-main .comment-user  .comment-input textarea {
+    /* margin:auto; */
+    width: 100%;
+    /* margin: 0px 10px; */
+    padding: 10px;
+    resize: none;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+
+}
+
+
+.display-outer .comment-div .comment-main .comment-user  .comment-input textarea:focus {
+    outline-style: none !important;
+    text-decoration: none;
+}
+.display-outer .comment-div .comment-main .comment-user .user-btn{
+    width:90%;
+    display: flex;
+    margin:auto;
+    justify-content: space-between  ;
+    align-items: center;
+}
+
+
+.display-outer .comment-div .comment-main .comment-display {
+    /* position: absolute !important; */
+    /* width:50%; */
+    width:100%;
+    margin-right: 0px;
+    display: block;
+    /* height: 1000px; */
+    overflow: auto;
+    /* background-color: gray; */
+}
+.display-outer .comment-div .comment-main .comment-hide-section{
+    /* position: absolute !important; */
+    background-color: red;
+    z-index:-1;
+    width:50%;
+    margin-right: 0px;
+    display: none;
+    overflow: auto;
+    /* background-color: gray; */
+}
+@media only screen and (max-width:1000px) {
+    .display-outer .display-main .display-left {
+        width: 100%;
+    }
+
+    .display-outer .display-main {
+        flex-direction: column;
+        padding: 0px;
+    }
+
+    .display-outer .display-main .display-right> {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .display-outer .display-main .display-right  .detail-section {
+        width: 100%;
+        /* background-color:red; */
+    }
+
+    .display-outer .display-main .display-right  -main  .display-table tr {
+        display: flex;
+        flex-direction: column;
+        /* background-color:green; */
+    }
+
+    .display-outer .display-main .display-right  .display-price {
+        width: 100%;
+        font-size: medium;
+        /* background-color: green; */
+        font-weight: 400;
+        align-items: center;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    }
+
+    .display-outer .display-main .display-right  .display-price .price {
+        font-size: large;
+
+    .hidden-btn {
+        visibility: hidden;
+    }
+
+    .speeddial {
+        visibility: visible;
+        background-color: blue;
+    }
+}

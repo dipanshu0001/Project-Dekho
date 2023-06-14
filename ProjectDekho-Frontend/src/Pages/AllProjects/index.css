@@ -1,0 +1,41 @@
+.view-outer {
+    width: 90%;
+    margin: auto;
+}
+
+.view-outer .view-main {
+    width: 100%;
+    padding: 20px;
+    /* background-color: grey; */
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
+.view-outer .view-main .filter-main {
+    flex: 1 1 auto;
+    padding: 10px;
+}
+
+.filter-div-section {
+    /* background-color: gold; */
+    height:inherit;
+    min-height: 584px;
+    position:sticky;
+    top:110px;
+}
+
+.view-outer .view-main .project-display-main {
+    flex: 3 1 auto;
+    padding:10px;
+}
+.project-display-main .project-div{
+    /* background-color: bisque; */
+    /* height: 500px; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    display: grid;
+    padding:10px;
+    gap:5px;
+    grid-template-columns: repeat(2,50%);
+}

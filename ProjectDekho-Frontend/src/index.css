@@ -1,0 +1,84 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+
+
+@layer components {
+  .inputs-css {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 my-3;
+  }
+
+  .uploads-css {
+    @apply block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2.5 my-3;
+    }
+
+    .btn-lime {
+      @apply py-2 px-4 rounded bg-lime-400;
+    }
+    .btn-blue {
+      @apply bg-blue-500 text-white;
+    }
+    .btn-blue:hover {
+      @apply bg-blue-700;
+    }
+  
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background-Image: linear-gradient(to right bottom, rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237)); */
+  color:black;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+input:focus, textarea:focus, select:focus{
+  outline: none !important;
+}
+html,
+body {
+  height: 100%;
+}
+
+.ripple-effect-css {
+  display: inline-block;
+  border-radius: .25rem;
+  background-color: #3b82f6;
+  padding-left: 1.5rem;
+  padding-bottom: .5rem;
+  padding-top: .625rem;
+  font-size: .75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1.25rem;
+  color: #fff;
+  box-shadow: 0 .125rem .375rem -0.125rem rgba(59, 130, 246, 0.25);
+  transition: background-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+}
+
+.ripple-effect-css:hover {
+  background-color: #2563eb;
+  box-shadow: 0 .5rem .375rem -0.125rem rgba(59, 130, 246, 0.3), 0 .125rem .75rem 0 rgba(59, 130, 246, 0.2);
+}
+
+.ripple-effect-css:focus {
+  background-color: #2563eb;
+  box-shadow: 0 .5rem .375rem -0.125rem rgba(59, 130, 246, 0.3), 0 .125rem .75rem 0 rgba(59, 130, 246, 0.2);
+  outline: none;
+  ring: 0;
+}
+
+.ripple-effect-css:active {
+  background-color: #1d4ed8;
+  box-shadow: 0 .5rem .375rem -0.125rem rgba(59, 130, 246, 0.3), 0 .125rem .75rem 0 rgba(59, 130, 246, 0.2);
+}

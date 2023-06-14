@@ -1,0 +1,531 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
+import "./Navbar.css";
+
+import { Logout_User } from "../../Actions/Actions";
+import Notify from "../../components/Notify";
+import { useEffect } from "react";
+import Modal_form from "../Modal-form/Modal_form";
+import Login from "../Login/Login";
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
+import * as yup from 'yup';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import '../Modal-form/Modal_form.css'
+import { Button as TailwindButton } from "@material-tailwind/react";
+import { useFunction } from '../../Common_function_context/ContextProvide';
+
+function NavBar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [click, setClick] = useState(false);
+  const state = useSelector(state => state.UserReducer)
+  const [isUserDashboard, setisUserDashboard] = useState(0)
+  // console.log(state)
+  const clear_cookie = async () => {
+    try {
+      
+      const result  =await axios.post("http://localhost:4000/Api/ClearCookie", {}, { withCredentials: true })
+      Cookies.remove('user-details');
+      dispatch(Logout_User());
+      navigate('/login')
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+  useEffect(() => {
+    
+
+    const checkLocation=()=>
+    {
+      if(window.location.pathname==='/userDashboard')
+      {
+        setisUserDashboard(2);
+      }else
+      {
+        setisUserDashboard(1);
+      }
+    }
+    
+    checkLocation();
+  }, [window.location.pathname,window.location])
+  const handleClick = () => setClick(!click);
+
+  // console.log(Cookies.get("refreshToken"));
+  const { set_err,setOpen } = useFunction();
+  const [show, setShow] = useState(false);
+  const [err, Seterr] = useState({});
+  const [images, setImages] = useState([]);
+  const user = useSelector(state => state.UserReducer)
+  const [data, setData] = useState({
+    Name: "",
+    Description: "",
+    Contact: "",
+    Github_react: "",
+    Github_node: "",
+    Deployed_link: "",
+    Industry: "",
+    Monetized: "false",
+    Build: "",
+    Minprice: "",
+    Maxprice: "",
+  })
+
+  //!validation Schema for form 
+  const ValidationSchema = yup.object().shape({
+    Name: yup.string().required("Project Title required"),
+    Description: yup.string().min(50, "Minmum 50 character required").max(60, "Maximum 60 character are allowed").required("Description is required"),
+    Contact: yup.string().matches(/^[0-9]{10}$/, "Invalid phone number").required("Contact number required"),
+    Deployed_link: yup.string().required("Deployed link required"),
+    Image: yup.string().required("Image required"),
+    Industry: yup.string().required("Indusrty is required"),
+    Minprice: yup.string().matches(/^[0-9]{2,}$/, "Prize should be more than rupees 1000").required("Minprize required"),
+    Maxprice: yup.string().matches(/^[0-9]{2,}$/, "Prize should be more than rupees 1000").required("Maxprize required"),
+    Monetized: yup.mixed()
+      .oneOf(['false', 'true'], 'Please select any one of them')
+      .required('It is required'),
+    Build: yup.string().matches(/^[0-9]{4}$/, "Enter valid year").required("Build year required"),
+  })
+
+  //! Validation function for form
+  const ValidateInput = async (e) => {
+    const { name, value } = e.target
+    console.log(name, value)
+    try {
+      await yup.reach(ValidationSchema, name).validate(value)
+      Seterr(prev => ({ ...prev, [name]: null }))
+    } catch (err) {
+      Seterr(prev => ({ ...prev, [name]: err.message }))
+    }
+  }
+  const handleShow = () => setShow(true);
+  const set_value = (e) => {
+    const { value, name } = e.target;
+    setData(prev => ({ ...prev, [name]: value }))
+  }
+  const handleClose=()=>{
+    navigate('/')
+    setShow(false);
+  }
+  const handleSubmit = async () => {
+    try {
+      setOpen(true)
+      const formdata = new FormData();
+      formdata.append('Name', data.Name);
+      formdata.append('Uid', user.Uid);
+      formdata.append('Description', data.Description);
+      formdata.append('Contact', data.Contact);
+      formdata.append('Github_react', data.Github_react);
+      formdata.append('Github_node', data.Github_node);
+      formdata.append('Deployed_link', data.Deployed_link);
+      formdata.append('Image', images);
+      formdata.append('Industry', data.Industry);
+      formdata.append('Minprice', data.Minprice);
+      formdata.append('Maxprice', data.Maxprice);
+      formdata.append('Build', data.Build);
+      formdata.append('Monetized', data.Monetized);
+      const result = await axios.post('http://localhost:4000/Api/User/AddProject', formdata);
+      set_err(result.data.message, result.data.type)
+      setData({
+        Name: "",
+        Description: "",
+        Contact: "",
+        Github_react: "",
+        Github_node: "",
+        Deployed_link: "",
+        Industry: "",
+        Monetized: "false",
+        Build: "",
+        Minprice: "",
+        Maxprice: "",
+      })
+      handleClose();
+      setOpen(false);
+    }
+    catch (e) {
+      set_err(e.response.data.message, e.response.data.type)
+      setOpen(false)
+    }
+
+  }
+
+  const handleGithubReact = async () => {
+    if (data.Github_react === "") return
+    console.log(data.Github_react);
+    try {
+      const result = await axios.post('http://localhost:4000/Api/User/CheckReactRepo', { link: data.Github_react });
+      console.log(result.data);
+      // set_err(result.data.message, result.data.type)
+      // setData(prev=>({...prev,Github_react:""}))
+
+    } catch (e) {
+      console.log(e.response.data.message, e.response.data.type)
+      set_err(e.response.data.message, e.response.data.type)
+    }
+  }
+  const handleGithubNode = async () => {
+    if (data.Github_node === "") return
+    try {
+      const result = await axios.post('http://localhost:4000/Api/User/CheckNodeRepo', { link: data.Github_node });
+      // console.log(result.data);
+      // setData(prev=>({...prev,Github_node:""}))
+
+    } catch (e) {
+      // console.log(e.response)
+      set_err(e.response.data.message, e.response.data.type)
+    }
+  }
+  const Typeoptions = [
+    { label: "hello world" },
+    { label: "Hello earth" },
+    { label: "hello mint" },
+    { label: "Project" },
+    { label: "Project Dekho" },
+  ]
+  return (
+    <>
+   
+    {isUserDashboard === 1 ?
+      <nav className="navbar">
+        <div className="nav-container">
+          <NavLink exact to="/" className="nav-logo">
+
+            ProjectDekho
+
+          </NavLink>
+
+          <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <span
+                // exact
+                // to="/jdfjsjdf"
+                activeClassName="active"
+                className="nav-links cursor-pointer"
+                onClick={handleClick}
+              >
+                <Modal_form/>
+              </span>
+            </li>
+     
+
+      <Modal show={show} onHide={handleClose} >
+        <Modal.Header closeButton className='bg-indigo-800 bg-opacity-25 border-t-2 border-l-2 border-r-2 border-gray-600'>
+          <Modal.Title>Project Details</Modal.Title>
+        </Modal.Header>
+        
+        <Modal.Body className='bg-indigo-800 bg-opacity-10 border-l-2 border-r-2 border-gray-600'>
+          <form onSubmit={e => e.preventDefault()}>
+
+            <>
+              <input
+                className="inputs-css w-full"
+                placeholder="Project Title"
+                name="Name"
+                size="large"
+                required
+                value={data.Name}
+                onChange={set_value}
+                onBlur={ValidateInput}
+              />
+              {err.Name && <small style={{ color: "red" }}>{err.Name}</small>}
+            </>
+            <>
+              <textarea
+                type="text"
+                rows={5}
+                name="Description"
+                className="resize-none inputs-css"
+                placeholder="Description about Project in max 50-60 words"
+                value={data.Description}
+                onChange={set_value}
+                required
+                onBlur={ValidateInput}
+              />
+              {err.Description && <small style={{ color: "red" }}>{err.Description}</small>}
+            </>
+            <>
+              <input
+                name="Contact"
+                pattern="[0-9]*"
+                className="inputs-css"
+                placeholder="Contact Number"
+                value={data.Contact}
+                onChange={set_value}
+                onBlur={ValidateInput}
+                maxlength="10"
+                required />
+              {err.Contact && <small style={{ color: "red" }}>{err.Contact}</small>}
+            </>
+            <>
+              <input
+                name="Github_react"
+                className="inputs-css"
+                placeholder="Github React Link"
+                value={data.Github_react}
+                onChange={set_value}
+                onBlur={handleGithubReact}
+                required />
+            </>
+            {<small style={{ color: "gray" }}>*Please enter Public Repo</small>}
+            <>
+              <input
+                name="Github_node"
+                className="inputs-css"
+                placeholder="Github Node Link"
+                value={data.Github_node}
+                onChange={set_value}
+                onBlur={handleGithubNode}
+                required />
+              {<small style={{ color: "gray" }}>*Please enter Public Repo</small>}
+
+            </>
+            <>
+              <input
+                name="Deployed_link"
+                className="inputs-css"
+                placeholder="Deployed Link"
+                value={data.Deployed_link}
+                onBlur={ValidateInput}
+                onChange={set_value}
+                required />
+              {err.Deployed_link && <small style={{ color: "red" }}>{err.Deployed_link}</small>}
+            </>
+            <>
+              <input
+                name="Image"
+                type="file"
+                onChange={(e) => setImages(e.target.files[0])}
+                className="uploads-css"
+                // placeholder="Deployed Link"
+                onBlur={ValidateInput}
+                required
+
+              />
+
+              {err.Image && <small style={{ color: "red" }}>{err.Image}</small>}
+            </>
+            <>
+              <Autocomplete
+                disablePortal
+                className="w-full inputs-css"
+                id="combo-box-demo"
+                value={data.Industry || null}
+                onChange={(event, value) => setData(prev => ({ ...prev, Industry: value.label }))}
+                // onChange={e=>console.log(e)}
+                options={!Typeoptions ? [{ label: "Loading...", id: 0 }] : Typeoptions}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Industry" />}
+              />
+            </>
+            <div className="flex flex-auto flex-wrap justify-around input-flex">
+              <div className="w-5/12 text-center">
+                <>
+                  <h5>Monetized</h5>
+                  {err.Monetized && <small style={{ color: "red" }}>{err.Monetized}</small>}
+                </>
+                <div className="flex justify-around w-100 ">
+                  <span className='flex justify-between align-items-center ' >
+                    <input
+                      type="radio"
+                      name="Monetized"
+                      className="inputs-css w-1/2"
+                      placeholder="expecting Price"
+                      value="false"
+                      onChange={set_value}
+                      required
+                      default
+                    /><label className='w-1/3'>
+                      No
+                    </label>
+                  </span>
+                  <span className='flex justify-between align-items-center ' >
+                    <input
+                      type="radio"
+                      name="Monetized"
+                      className="inputs-css w-1/2"
+                      placeholder="expecting Price"
+                      value="true"
+                      onChange={set_value}
+                      required
+                    /><label className='w-1/3'>
+                      Yes
+                    </label>
+                  </span>
+                </div>
+              </div>
+              <div className="w-5/12 text-center">
+                <input
+                  name="Build"
+                  type="text"
+                  className="inputs-css w-100"
+                  placeholder="Year when Build"
+                  value={data.Build}
+                  onChange={set_value}
+                  onBlur={ValidateInput}
+                  required
+                />
+                {err.Build && <small style={{ color: "red" }}>{err.Build}</small>}
+
+              </div>
+            </div>
+            <div className='w-100 mt-2 '>
+              <div className="w-100 text-center">
+                <h5>Price Range</h5>
+                <div className="flex justify-around w-100 input-flex">
+                  <div className="flex flex-col w-5/12">
+                    <input
+                      type="text"
+                      name="Minprice"
+                      className="inputs-css w-100"
+                      placeholder="Minimum Price"
+                      value={data.Minprice}
+                      onBlur={ValidateInput}
+                      onChange={set_value}
+                      required
+                    />
+                    {err.Minprice && <small style={{ color: "red" }}>{err.Minprice}</small>}
+                  </div>
+
+                  <div className='flex flex-col w-5/12'>
+                    <input
+                      type="text"
+                      name="Maxprice"
+                      className="inputs-css w-100"
+                      placeholder="Maximum Price"
+                      value={data.Maxprice}
+                      onBlur={ValidateInput}
+                      onChange={set_value}
+                      required
+                    />
+                    {err.Maxprice && <small style={{ color: "red" }}>{err.Maxprice}</small>}
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer className="bg-blue-500 bg-opacity-75 border-b-2 border-l-2 border-r-2 border-gray-600">
+          <button
+            onClick={handleClose}
+            className="btn-lime bg-gray-300">
+            Close
+          </button>
+          <button
+            variant="primary"
+            onClick={() => {
+              handleSubmit();
+            }}
+
+            className="btn-lime"
+          >
+            Submit Project
+          </button>
+        </Modal.Footer>
+      </Modal>
+    {/* </>/ */}
+{/* add project */}
+
+            <li className="nav-item">
+              <NavLink
+                exact
+                to="/contact"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                Contact Us
+              </NavLink>
+            </li>
+
+
+            {/* chnges by harshit */}
+            <li className="nav-item hidden lg:block">
+              <Notify/>
+            </li>
+            
+
+
+            <li className="nav-item">
+              <NavLink
+                exact
+                to={state.Username !== "" ? "/user" : "/login"}
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+              
+             
+                {state.Username !== "" ? state.Username : <button>login</button>}
+                {/* <i class="fa fa-user-circle" aria-hidden="true"></i> */}
+              </NavLink>
+            </li>
+            {state.Username !== "" &&
+            <li className="nav-item">
+              <NavLink
+                exact
+                to={state.Username !== "" ? "/userDashboard" : "/login"}
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+              
+               userDashboard
+             
+                
+                {/* <i class="fa fa-user-circle" aria-hidden="true"></i> */}
+              </NavLink>
+            </li>
+            }
+            {state.Username === "" ?
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    exact
+                    to="/signup"
+                    activeClassName="active"
+                    className="nav-links"
+                    onClick={handleClick}
+                  >
+                    <button>Signup</button>
+
+                  </NavLink>
+                </li>
+              </> :
+              <>
+                <li className="nav-item">
+
+                  <button style={{ color: 'white' }} onClick={clear_cookie}>logout</button>
+
+                </li>
+              </>}
+
+          </ul>
+          <div className="nav-icon" onClick={handleClick}>
+            <i className={click ? "fa fa-times" : "fa fa-bars"}></i>
+          </div>
+        </div>
+      </nav>
+    :''}
+    </>
+  );
+}
+
+export default NavBar;
