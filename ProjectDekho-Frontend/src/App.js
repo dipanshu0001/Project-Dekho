@@ -31,6 +31,8 @@ import Landing from './Pages/Landing/Landing'
 import Contact from './Pages/Contact/Contact'
 import Footer from './components/Footer'
 import User_profile from './Pages/User_Profile/User_profile'
+import WithoutNavbar from './WithoutNavbar'
+import WithNavbar from './WithNavbar'
 
 
 
@@ -65,35 +67,39 @@ const App = () => {
   return (
     <>
     { process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_MODE : process.env.REACT_APP_PRO_MODE }
-      <Router>
-        <Routes>
 
-        </Routes>
-      </Router>
       <Router>
-        {isUserDashboard === 0 && ''}
+       
+        {/* {isUserDashboard === 0 && ''}
         {isUserDashboard === 1 && ''}
-        {isUserDashboard === 2 && <NavBar />}
+        {isUserDashboard === 2 && <NavBar />} */}
         {!state.UserReducer.isAdmin && <Admin_chat />}
         <Routes>
-          <Route path="/userDashboard" element={<UserDashboard />} />
-          <Route exact path='/' element={<Landing />} />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/signup' element={<Signup />} />
-          <Route path='/Form' element={<Modal_form />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path="/Project/:_id/:uid" element={<View_detail />} />
-          <Route exact path="/home" element={<Admin_chat />} />
-          <Route exact path="/noti" element={<Notify />} />
-          <Route exact path="/chat" element={<Chat />} />
-          <Route exact path="/admin" element={<AdminChat />} />
-          <Route exact path="/user" element={<UserChat />} />
-          <Route exact path="/card" element={<Cards />} />
-          <Route exact path="/homes" element={<Homes />} />
-          <Route exact path="/ViewAll" element={<ViewAllProjects />} />
-          <Route exact path='*' element={<User_profile uid="0e22ba00-1558-48b8-b543-9aa624d7dba2"/>}/>  
+           <Route element={<WithoutNavbar/>}>
+             <Route path="/userDashboard" element={<UserDashboard />} />
+             <Route  path='/login' element={<Login />} />
+              <Route  path='/signup' element={<Signup />} />
+           </Route>
+            <Route element={<WithNavbar/>}>
+              
+              <Route  path='/' element={<Landing />} />
+
+              <Route path='/Form' element={<Modal_form />} />
+              <Route path='/contact' element={<Contact />} />
+              <Route path="/Project/:_id/:uid" element={<View_detail />} />
+              <Route  path="/home" element={<Admin_chat />} />
+              <Route  path="/noti" element={<Notify />} />
+              <Route  path="/chat" element={<Chat />} />
+              <Route  path="/admin" element={<AdminChat />} />
+              <Route  path="/user" element={<UserChat />} />
+              <Route  path="/card" element={<Cards />} />
+              <Route  path="/homes" element={<Homes />} />
+              <Route  path="/ViewAll" element={<ViewAllProjects />} />
+              <Route  path='*' element={<User_profile uid="0e22ba00-1558-48b8-b543-9aa624d7dba2"/>}/> 
+           </Route>
+ 
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
         <ToastContainer />
       </Router>
     </>
