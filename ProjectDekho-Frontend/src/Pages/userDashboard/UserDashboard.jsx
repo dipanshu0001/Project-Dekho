@@ -4,6 +4,7 @@ import AllProjects from "./AllProjects"
 import './UserDashboard.css'
 import { useSelector } from "react-redux";
 import UserChat from "../../components/UserChat";
+import SavedProjects from "./SavedProjects";
 const UserDashboard = () => {
   
   const useMediaQuery = (query) => {
@@ -139,10 +140,10 @@ const UserDashboard = () => {
     </div>
     <div className="content">
     {active===1 && <UserDetails/>}
-    {active===2 && <AllProjects />}
+    {active===2 && <AllProjects state={state}/>}
     {active===3 &&  <UserChat />}
     {active===4 && "All projects sold by you"}
-    {active===5 && "Your saved Projects"}
+    {active===5 && <SavedProjects state={state && state.SavedProjects}/>}
     {active===6 && "Settings"}
       
     </div>

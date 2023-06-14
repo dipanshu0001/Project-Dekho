@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import "./sidebar.css";
 import axios from "axios";
-const AllProjects = ({ state }) => {
+const SavedProjects = ({ state }) => {
   const [AllProjects, setAllProjects] = useState([]);
   useEffect(() => {
     const getAllProjects = async () => {
-      const data = await axios.get(
-        `${process.env.REACT_APP_PROXY}/Projects/Get_ParticularProject_User/${state.Uid}`
+      const data = await axios.post(
+        `${process.env.REACT_APP_PROXY}/Projects/Get_Saved_Projects`,state
       );
-      setAllProjects(data.data.result);
+      setAllProjects(data.data);
     };
     getAllProjects();
   }, []);
@@ -49,4 +49,4 @@ const AllProjects = ({ state }) => {
   );
 };
 
-export default AllProjects;
+export default SavedProjects;
