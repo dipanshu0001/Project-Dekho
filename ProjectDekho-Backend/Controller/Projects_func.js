@@ -17,7 +17,7 @@ const Get_ParticularProject = async (req, res) => {
     // console.log(req.body)
     try {
         const result = await projectModel.findOne({ _id: _id })
-        console.log(result)
+        console.log(result,"result")
         return res.status(200).send({ project: result })
     } catch (err) {
         console.log(err)
