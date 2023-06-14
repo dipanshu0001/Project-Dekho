@@ -6,7 +6,9 @@ const { getAllProjects,
     find_already_liked,
     find_already_disliked,
     Get_ParticularProject,
-    handleviewcount
+    Get_ParticularProject_User,
+    handleviewcount,
+    Get_Saved_Projects
 } = require('../Controller/Projects_func')
 const {
     getTopLiked,
@@ -20,6 +22,8 @@ Router.get('/allProjects/:limit', getAllProjects)
     .post('/Already_liked', find_already_liked)
     .post('/Already_disliked', find_already_disliked)
     .post('/Get_ParticularProject', Get_ParticularProject)
+    .post('/Get_Saved_Projects',Get_Saved_Projects)
+    .get('/Get_ParticularProject_User/:id',Get_ParticularProject_User)
     .post('/Viewcount', handleviewcount)
     .get('/MostLiked',getTopLiked)
     .get('/DistinctIndustry',getDistinctIndustry)

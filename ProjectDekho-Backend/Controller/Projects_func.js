@@ -24,6 +24,41 @@ const Get_ParticularProject = async (req, res) => {
         res.status(500).json({ message: "Internal Server error", type: 2 })
     }
 }
+
+const Get_ParticularProject_User = async (req, res) => {
+    const _id = req.params.id;
+    console.log(_id)
+    
+    try {
+        const result = await projectModel.find({ Uid: _id })
+        console.log(result)
+        return res.status(200).send({  result })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: "Internal Server error", type: 2 })
+    }
+}
+const Get_Saved_Projects = async (req, res) => {
+    const data = req.body;
+    
+    try {
+        const obj =[];
+        for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            const result = await projectModel.findOne({ _id: element.Project_id })
+            
+            obj.push(result)
+            
+        }
+
+        return res.status(200).send( obj )
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: "Internal Server error", type: 2 })
+    }
+}
+
+
 const comment_section_handler = async (req, res) => {
     try {
         console.log(req.params);
@@ -179,5 +214,7 @@ module.exports = {
     find_already_liked,
     find_already_disliked,
     Get_ParticularProject,
+    Get_ParticularProject_User,
+    Get_Saved_Projects,
     handleviewcount
 }
