@@ -195,19 +195,16 @@ function View_detail() {
   useEffect(() => {
     const get_data = async () => {
       // console.log(uid, _id)
-      console.log(_id,uid)
+      // console.log(_id,uid)
       try {
         setLoaded(true);
         const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/Get_ParticularProject`, { _id })
-        // console.log(result.data.project)
+        console.log(result.data.project)
         setData(prev => ({ ...prev, ...result.data.project }))
         setlikecount(result.data.project.likePeople.length)
         const userresult = await axios.post(`${process.env.REACT_APP_PROXY}/User/Get_User`, { uid: uid })
-
         setUser(prev => ({ ...prev, ...userresult.data.user }))
         Dispatch(set_Username(userresult.data.user.Username));
-        // setOpen(true)
-        // setLoaded(false)
       } catch (e) {
         console.log(e)
       }
@@ -232,9 +229,8 @@ function View_detail() {
         console.log(err)
       }
     }
-
     get_liked();
-    console.log(userstate)
+    // console.log(userstate)
     let found = userstate.SavedProjects.find(ele => ele.Project_id === _id);
     if (found !== undefined) {
       setSaved(true);
