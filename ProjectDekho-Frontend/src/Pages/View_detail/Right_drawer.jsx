@@ -27,6 +27,7 @@ function Right_drawer({comments, _id,show_comment,setreload }) {
     const userstate = useSelector(state => state.UserReducer)
     // console.log(alreadyCommented)
     useEffect(() => {
+        if(alreadyCommented.length==0)
         setalreadycomment(prev => [...prev, ...comments]);
       }, [comments]);
     const toggleDrawer = (open) => (event) => {
@@ -103,7 +104,7 @@ function Right_drawer({comments, _id,show_comment,setreload }) {
     return (
         <div>
             <React.Fragment key="right">
-                <Button onClick={toggleDrawer(true)}><AiOutlineComment size={show_comment?30:20} color={show_comment?"white":"white"}/><span className="text-white">{show_comment&&alreadyCommented.length}</span></Button>
+                <Button onClick={toggleDrawer(true)}><AiOutlineComment size={show_comment?30:20} color={show_comment?"black":"black"}/><span c>{show_comment&&alreadyCommented.length}</span></Button>
                 <Drawer
                     anchor="right"
                     open={state}

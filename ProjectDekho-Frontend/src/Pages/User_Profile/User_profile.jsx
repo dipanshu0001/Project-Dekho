@@ -30,7 +30,7 @@ function User_profile({ uid,onFollow,onUnFollow,isFollowing }) {
             }
         }
         get_data();
-    }, [])
+    }, [isFollowing])
     return (
         <>
             {
@@ -69,7 +69,7 @@ function User_profile({ uid,onFollow,onUnFollow,isFollowing }) {
                                                 {/* <Avatar alt="avatar" /> */}
                                                 <Avatar src={ele.ProfileImage} alt="avatar" size="s" variant="rounded" />
                                                 <div>
-                                                    <a href="#" style={{textDecoration:"none", color:'black'}}>
+                                                    <a href={`/Profile/${ele.User_id}`} style={{textDecoration:"none", color:'black'}}>
                                                     <Typography variant="h6">{ele.Username}</Typography>
                                                     </a>
                                                 </div>

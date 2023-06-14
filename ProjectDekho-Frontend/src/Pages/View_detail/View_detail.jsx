@@ -243,7 +243,7 @@ function View_detail() {
 
     }
 
-  }, [reloadComponent]);
+  }, [reloadComponent,isFollowing]);
   return (
 
 
