@@ -30,6 +30,8 @@
 
 // sendNotificationEmail(subscriberEmails, articleData);
 
+// todo Email verfication and google login on process by harshit
 //TODO TOMMAROW --> PAGINATION KERNI
 // TODO TOMMAROW --> EK PROFILE PAGE BNANA USER KA JO KI MAI PROJECT KHULE 
+// todo TO USE SATH DEEKHA SAKU AND VIEW PROFILE MAI BHI VAHI USE KER LUNGA 
 // todo TO USE SATH DEEKHA SAKU AND VIEW PROFILE MAI BHI VAHI USE KER LUNGA 

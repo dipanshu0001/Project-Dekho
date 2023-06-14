@@ -1,14 +1,15 @@
 const ProjectModel = require('../Model/UserProject');
 const cloudinary =  require('cloudinary');
 const userModel = require('../Model/UserModel')
+const {sendMailToSubscribers}=require("./Additional_features_project.js")
 // const fetch = require('node-fetch');
 // const request = require('request');
 const axios = require('axios');
-const UserModel = require('../Model/UserModel');
+// const UserModel = require('../Model/UserModel');
 const AddProject = async (req, res) => {
     const file = req.files.Image;
     const { Name, Description, Github_react,Github_node, Contact, Uid,Deployed_link,Industry,Monetized,Build,Minprice,Maxprice} = req.body;
-  console.log(req.body,req.files);
+    console.log(req.body);
     if (!Name || !Description || !Contact || !Deployed_link ||!Industry || !Monetized||!Build || !Minprice || !Maxprice||!Uid) {
         return res.status(400).send({ message: "Fill All Fileds", type: 2 })
     }
@@ -18,9 +19,9 @@ const AddProject = async (req, res) => {
     }
     try {
       let value=(Github_react!=="" && Github_node!=="")
+      const uploader_user= await userModel.findOne({Uid:Uid})
+      // console.log(uploader_user)
       cloudinary.v2.uploader.upload(file.tempFilePath, (err, result) => {
-        // console.log(result.url)
-        // console.log(err)
         if(err)console.log(err)
         const new_document = new ProjectModel({
             Uid:Uid,
@@ -38,9 +39,15 @@ const AddProject = async (req, res) => {
             Minprice:parseInt(Minprice),
             Maxprice:parseInt(Maxprice),
           })
-        new_document.save();
-        res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
-    }) 
+          // if(uploader_user.Followers)
+          // {
+            new_document.save();
+          }) 
+          // console.log(uploader_user.Following);
+          // console.log("sjdsdkfj");
+          console.log(uploader_user.Followers)
+           sendMailToSubscribers(uploader_user.Gmail,uploader_user.Followers,uploader_user.Username,uploader_user.Uid,uploader_user._id)
+          res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
     } catch (e) {
       console.log(e.message)
         res.status(500).send({ message: "Internal Server Error", type: 3 })
@@ -188,9 +195,9 @@ const CheckNodeRepo=async(req,res)=>{
 const Get_User=async(req,res)=>{
   try{
     const {uid}=req.body;
-    console.log(req.body)
+    // console.log(req.body)
     const result=await UserModel.findOne({Uid:uid},{Refreshtoken:0,Password:0})
-    console.log(result)
+    // console.log(result)
     // (result)
     return res.status(200).send({user:result})
   }catch(e){
@@ -226,26 +233,34 @@ const unSaveProject=async(req,res)=>{
 
 const userFollow=async(req,res)=>{
 
-  const {Login_user_id,type,Uid}=req.params;
+  const {Login_user_id,type,Uid,issubscribe,Gmail}=req.params;
+  // console.log(req.params);
   console.log(req.params,"params")
   try{
-
     const login_user_detail=await UserModel.findOne({Uid:Login_user_id})
     const user_detail=await UserModel.findOne({Uid:Uid})
     console.log(login_user_detail.Username,user_detail.Username)
     // console.log(user_detail,"userdetails")
-    if(type==="0"){
+    if(type==="0")
+    {
     const updated_login_user_following_list=await login_user_detail.handleFollowing(Uid,user_detail.ProfileImage,user_detail.Username);
-    const updated_user_follower_list=await user_detail.handleFollowers(Login_user_id);
+    const updated_user_follower_list=await user_detail.handleFollowers(Login_user_id,Gmail);
     return res.status(200).json({message:`Following  ${user_detail.Username}`,type:1,new_list:updated_login_user_following_list})
     }
-    else{
+    else if(type==="1"){
       const updated_login_user_following_list=await login_user_detail.handleUnFollowing(Uid)
-      const updated_user_follower_list=await user_detail.handleUnFollowers(Login_user_id)
+      const updated_user_follower_list=await user_detail.handleUnFollowers(Login_user_id,Gmail)
       console.log(updated_user_follower_list)
       return res.status(200).json({message:`Unfollowed ${user_detail.Username}`,type:1,new_list:updated_login_user_following_list})
     }
-    res.send({message:"fdfa",type:1,new_list:[]})
+    else if(type==="2"){
+      const updated_user_follower_list=await user_detail.handleSubscribeBoth(Login_user_id,issubscribe,Gmail);
+      const updated_login_user_following_list=await login_user_detail.handleFollowing(Uid,user_detail.ProfileImage,user_detail.Username);
+      return res.status(200).json({message:`Following and subcribed to${user_detail.Username}`,type:1,new_list:updated_login_user_following_list})
+    }else{
+      const updated_user_follower_list=await user_detail.handleSubscribeBoth(Login_user_id,issubscribe,Gmail);
+      return res.status(200).json({message:`Unsubcribed to${user_detail.Username}`,type:1,new_list:login_user_detail.Following})
+    }
   }catch (error){
     console.log(error)
     res.status(500).send({message:"Internal Server Error please try again later",type:3})

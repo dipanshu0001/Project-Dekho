@@ -42,6 +42,7 @@
 }
 .user-outer .user-main .user-buttons>*{
     border-radius: 15px;
+    border:1px solid green;
     background-color: green;
     /* flex-direction: column-reverse; */
     width:max-content;

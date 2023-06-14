@@ -1,19 +1,57 @@
 import React, { useState, useEffect } from 'react'
-import { Avatar, Typography } from "@material-tailwind/react";
-import axios from 'axios'
-import './User_profile.css'
+import { set_Username, UpdateSavedProjects, UpdateFollowing, UpdateFollowers } from '../../Actions/Actions';
+import { useFunction } from '../../Common_function_context/ContextProvide';
 import { Button as TailwindButton } from "@material-tailwind/react";
-import { GoMail } from "react-icons/go";
-import { Tooltip, Button } from "@material-tailwind/react";
+import { Avatar, Typography } from "@material-tailwind/react";
 import User_profile_skeleton from './User_profile_skeleton';
+import { Tooltip, Button } from "@material-tailwind/react";
+import { useSelector, useDispatch } from 'react-redux';
+import { GoMail } from "react-icons/go";
+import './User_profile.css'
+import axios from 'axios'
+import { HiMail, HiMailOpen } from "react-icons/hi";
 
-function User_profile({ uid,onFollow,onUnFollow,isFollowing }) {
+function User_profile({ uid, onFollow, onUnFollow, isFollowing ,setfollowing}) {
+    const Dispatch = useDispatch();
+    const userstate = useSelector(state => state.UserReducer)
+    const { set_err,setOpen } = useFunction();
+    const [issubscribe, setissubscribe] = useState(false)
+    const [isloading, setloading] = useState(false)
     const [userdata, setuserdata] = useState({
         Followers: [],
         Following: [],
     })
-    const [isloading, setloading] = useState(false)
-    // console.log(is)
+    // TODO handleSubscribe and handleUnSubscribe
+
+    const handleSubscribe = async () => {
+        try {
+            setOpen(true);
+            const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${2}/${uid}/true/${userstate.Gmail}`
+            const result = await axios.post(url);
+            Dispatch(UpdateFollowing(result.data.new_list))
+            setfollowing(true);
+            setissubscribe(true);
+            setOpen(false);
+
+        } catch (err) {
+            console.log(err.response.data.message);
+        }
+    }
+    const handleUnSubscribe = async () => {
+        try {
+            setOpen(true);
+            const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${3}/${uid}/false/${userstate.Gmail}`
+            const result = await axios.post(url);
+            console.log(result.data.new_list)
+            Dispatch(UpdateFollowing(result.data.new_list))
+            setfollowing(false);
+            setissubscribe(false);
+            setOpen(false);
+
+        } catch (err) {
+            console.log(err.response.data.message);
+        }
+    }
     useEffect(() => {
         const get_data = async () => {
             try {
@@ -51,12 +89,14 @@ function User_profile({ uid,onFollow,onUnFollow,isFollowing }) {
                                 </div>
                             </div>
                             <div className="user-buttons">
-                                <Tooltip content={`Follow ${userdata.Username}`}>
-                                    <TailwindButton onClick={!isFollowing?onFollow:onUnFollow}>{isFollowing?"Following":"Follow"}</TailwindButton>
+                                <Tooltip content={!isFollowing?`Follow ${userdata.Username}`:`Following ${userdata.Username}`}>
+                                    <TailwindButton onClick={!isFollowing ? onFollow : onUnFollow}>{isFollowing ? "Following" : "Follow"}</TailwindButton>
                                 </Tooltip>
-                                <Tooltip content={`You will get mail as soon as ${userdata.Username} upload a new project`}>
-                                    <TailwindButton
-                                    ><GoMail size={20} /></TailwindButton>
+                                <Tooltip
+                                    content={!issubscribe?`You will get mail as soon as ${userdata.Username} upload a new project`:`You are subscribed to ${userdata.Username}`}>
+                                    <TailwindButton onClick={!issubscribe?handleSubscribe:handleUnSubscribe}>
+                                        {!issubscribe?<HiMailOpen size={30} />:<HiMail size={30}/>}
+                                    </TailwindButton>
                                 </Tooltip>
                             </div>
                             <div className="user-following">
@@ -69,8 +109,8 @@ function User_profile({ uid,onFollow,onUnFollow,isFollowing }) {
                                                 {/* <Avatar alt="avatar" /> */}
                                                 <Avatar src={ele.ProfileImage} alt="avatar" size="s" variant="rounded" />
                                                 <div>
-                                                    <a href={`/Profile/${ele.User_id}`} style={{textDecoration:"none", color:'black'}}>
-                                                    <Typography variant="h6">{ele.Username}</Typography>
+                                                    <a href={`/Profile/${ele.User_id}`} style={{ textDecoration: "none", color: 'black' }}>
+                                                        <Typography variant="h6">{ele.Username}</Typography>
                                                     </a>
                                                 </div>
                                             </div>
@@ -81,7 +121,7 @@ function User_profile({ uid,onFollow,onUnFollow,isFollowing }) {
                         </div>
                     </div>
 
-                ) : (<User_profile_skeleton/>)
+                ) : (<User_profile_skeleton />)
             }
         </>
     )

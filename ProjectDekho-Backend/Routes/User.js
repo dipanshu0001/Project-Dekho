@@ -9,5 +9,5 @@ Router.post('/Addproject', AddProject)
       .post('/Get_User',Get_User)
       .post('/SaveProject', SaveProject)
       .post('/unSaveProject', unSaveProject)
-      .post('/Followers/:Login_user_id/:type/:Uid',userFollow)
+      .post('/Followers/:Login_user_id/:type/:Uid/:issubscribe/:Gmail',userFollow)
 module.exports = Router;

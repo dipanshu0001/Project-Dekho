@@ -14,7 +14,7 @@ const getAllProjects = async (req, res) => {
 
 const Get_ParticularProject = async (req, res) => {
     const { _id } = req.body
-    console.log(req.body)
+    // console.log(req.body)
     try {
         const result = await projectModel.findOne({ _id: _id })
         console.log(result)
@@ -74,11 +74,7 @@ const like_count_handler = async (req, res) => {
             const result = await liked_project.increaseCount(finduser_who_liked_project.Uid, finduser_who_liked_project.Username);
             // console.log(result.length,"like ka count")
             await liked_project.save();
-
             res.status(200).json({ message: "Like count increased successfully", count: result.length, new_liked_project })
-
-
-
         } else if (bool === "0") {
             const disliked_project = await projectModel.findOne({ _id: id })
             const finduser_who_disliked_project = await userModel.findOne({ Uid: userid })
