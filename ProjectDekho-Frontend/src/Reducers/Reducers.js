@@ -18,7 +18,6 @@ try {
     const storedAlready = Cookies.get("user-details");
     if (storedAlready) {
         const decrypted_data = sjcl.decrypt(SECRET_KEY, storedAlready);
-        // console.log(decrypted_data)
         intialState = JSON.parse(decrypted_data);
     }
 } catch (err) {
@@ -27,7 +26,6 @@ try {
 
 export const UserReducer = (state = intialState, action) => {
     const { type, payload } = action
-    // console.log(type,payload)
     switch (type) {
         case LoginUser:  
             return {

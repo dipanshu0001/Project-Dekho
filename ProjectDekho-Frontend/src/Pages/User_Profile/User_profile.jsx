@@ -42,7 +42,7 @@ function User_profile({ uid, onFollow, onUnFollow, isFollowing ,setfollowing}) {
             setOpen(true);
             const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${3}/${uid}/false/${userstate.Gmail}`
             const result = await axios.post(url);
-            console.log(result.data.new_list)
+            // console.log(result.data.new_list)
             Dispatch(UpdateFollowing(result.data.new_list))
             setfollowing(false);
             setissubscribe(false);

@@ -151,7 +151,7 @@ function View_detail() {
       set_err("Your were Not logged in", 2)
       navigate('/login')
     }
-    console.log("followed was called")
+    // console.log("followed was called")
     if (userstate.Uid === uid) {
       set_err("You can not Follow yourself ", 2);
       return
@@ -159,13 +159,13 @@ function View_detail() {
     try {
       setOpen(true)
       const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${0}/${uid}/false/${userstate.Gmail}`)
-      console.log(result.data)
+      // console.log(result.data)
       Dispatch(UpdateFollowing(result.data.new_list))
       setOpen(false);
       set_err(result.data.message, result.data.type);
       setfollowing(true)
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setOpen(false);
     }
   }
@@ -182,7 +182,7 @@ function View_detail() {
       setfollowing(false)
       
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setOpen(false);
     }
   }
@@ -199,7 +199,7 @@ function View_detail() {
       try {
         setLoaded(true);
         const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/Get_ParticularProject`, { _id })
-        console.log(result.data,"Data")
+        // console.log(result.data,"Data")
         setData(prev => ({ ...prev, ...result.data.project }))
         setlikecount(result.data.project.likePeople.length)
         const userresult = await axios.post(`${process.env.REACT_APP_PROXY}/User/Get_User`, { uid: uid })

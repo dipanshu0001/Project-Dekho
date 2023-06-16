@@ -42,7 +42,7 @@ const Login = () => {
     try {
       const result = await axios.post("http://localhost:4000/Api/Login", { ...data },{ withCredentials: true })
       const { data: resdata } = result;
-      console.log(resdata,"resdata");
+      // console.log(resdata,"resdata");
       // console.log(resdata.accesstoken, "acesstoken");
       // console.log(resdata.user, "details");
       dispatch(Login_User({ accesstoken: resdata.accesstoken, ...resdata.user }));
@@ -59,17 +59,17 @@ const Login = () => {
 
   // !to get a new Refresh token if user accesToken get destroyed
   useEffect(() => {
-    console.log("called")
+    // console.log("called")
     const get_refresh_token = async () => {
       try {
         const result = await axios.post("http://localhost:4000/Api/RefreshToken",{},{ withCredentials: true });
         const { data: resdata } = result;
-        console.log(resdata.user, "details");
+        // console.log(resdata.user, "details");
         dispatch(Login_User({ accesstoken: resdata.accesstoken, ...resdata.user }));
         setValidate(true);
         navigate('/');
       } catch (e) {
-        console.log(e.message)
+        // console.log(e.message)
         setLoading(false)
         setValidate(true)
       }

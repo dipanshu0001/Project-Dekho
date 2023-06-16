@@ -77,7 +77,7 @@ const AdminChat = () => {
 
   useEffect(() => {
     socket.on("recieve_chat", (data) => {
-      console.log("message recieved");
+      // console.log("message recieved");
       setarrivalMessage({
         fromSelf: false,
         from: data.from,

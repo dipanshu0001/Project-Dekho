@@ -48,7 +48,6 @@ function ProjectDisplay({ _id, Name, Uid, Description, Contact, Deployed_link, I
   const increase_dislike = async () => {
     try {
       const result = await axios.post(`http://localhost:4000/Api/Projects/likecount/${_id}/${0}/${userstate.Uid}`);
-
     } catch (e) {
       console.log(e.response.data)
     }
