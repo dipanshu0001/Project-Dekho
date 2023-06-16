@@ -222,6 +222,7 @@ UserModelSchema.methods.handleUnFollowing = async (Uid) => {
 }
 
 
+
 const UserModel = new mongoose.model('UserDetails', UserModelSchema);
 
 module.exports = UserModel;

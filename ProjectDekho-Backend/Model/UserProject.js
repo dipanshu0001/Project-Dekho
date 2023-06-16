@@ -189,7 +189,15 @@ ProjectSchema.methods.addNewViewer=async function(uid){
         console.log(err.message);
     }
 }
-
+ProjectSchema.methods.updateProject = async (data) => {
+    try {
+        // console.log(data)
+        this.save();
+        return this.Following
+    } catch (err) {
+        console.log("UnFollowing err", err)
+    }
+}
 
 const ProjectModel = new mongoose.model("PorjectDetails", ProjectSchema);
 
