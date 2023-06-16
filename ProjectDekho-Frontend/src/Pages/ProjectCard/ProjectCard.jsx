@@ -47,7 +47,7 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
       // console.log("called")
       // setlikecount(prev => prev + 1)
       const result = await axios.post(`http://localhost:4000/Api/Projects/likecount/${_id}/${1}/${userstate.Uid}`);
-      console.log(result.data.count, "count of like")
+      // console.log(result.data.count, "count of like")
       setlikecount(prev => result.data.count)
       setProjectcounter(prev => prev + 1);
     } catch (e) {
@@ -59,7 +59,7 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
     try {
       // setlikecount(prev => prev - 1)
       const result = await axios.post(`http://localhost:4000/Api/Projects/likecount/${_id}/${0}/${userstate.Uid}`);
-      console.log(result.data.count, "dislike")
+      // console.log(result.data.count, "dislike")
       setlikecount(prev => result.data.count)
       setProjectcounter(prev => prev + 1)
     } catch (e) {

@@ -143,7 +143,7 @@ function ViewAllProjects() {
       setfilters(prev => ({ ...prev, [name]: value }));
     }
   }
-  console.log(allproject)
+  // console.log(allproject)
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   return (
     <>

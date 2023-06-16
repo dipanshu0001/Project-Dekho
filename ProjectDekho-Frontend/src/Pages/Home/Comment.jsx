@@ -7,7 +7,7 @@ const Comment = ({user,id}) => {
     const sendComment = async (data) => {
         try {
           const result = await axios.post(`http://localhost:4000/Api/Projects/comment/${user.Username}/${id}`,data);
-          console.log(result.data)
+          // console.log(result.data)
           setcomment("")
   
         } catch (e) {

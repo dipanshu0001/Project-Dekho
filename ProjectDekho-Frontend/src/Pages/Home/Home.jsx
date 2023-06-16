@@ -23,7 +23,7 @@ const Home = () =>
 
   const count_handler = async (id, check, user) => {
     try {
-      console.log(user)
+      // console.log(user)
       const result = await axios.get(`http://localhost:4000/Api/Projects/likecount/${id}/${check}/${user}`);
       // console.log(result)
 

@@ -53,7 +53,7 @@ export default function Modal_form() {
   //! Validation function for form
   const ValidateInput = async (e) => {
     const { name, value } = e.target
-    console.log(name, value)
+    // console.log(name, value)
     try {
       await yup.reach(ValidationSchema, name).validate(value)
       Seterr(prev => ({ ...prev, [name]: null }))
@@ -127,15 +127,15 @@ export default function Modal_form() {
 
   const handleGithubReact = async () => {
     if (data.Github_react === "") return
-    console.log(data.Github_react);
+    // console.log(data.Github_react);
     try {
       const result = await axios.post('http://localhost:4000/Api/User/CheckReactRepo', { link: data.Github_react });
-      console.log(result.data);
+      // console.log(result.data);
       // set_err(result.data.message, result.data.type)
       // setData(prev=>({...prev,Github_react:""}))
 
     } catch (e) {
-      console.log(e.response.data.message, e.response.data.type)
+      // console.log(e.response.data.message, e.response.data.type)
       set_err(e.response.data.message, e.response.data.type)
     }
   }

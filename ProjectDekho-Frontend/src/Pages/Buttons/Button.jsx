@@ -5,8 +5,6 @@ function Button({value,func}) {
    
     return (
         <TailwindButton className="liner-color" onClick={func}>{value}</TailwindButton>
-
-
     )
 }
 

@@ -39,7 +39,7 @@ function Like_carousel() {
             }
         };
         getMostLiked();
-        console.log(mostlike)
+        // console.log(mostlike)
     }, [Projectcounter])
     const settings = {
         dots: false,

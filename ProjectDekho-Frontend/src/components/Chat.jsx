@@ -51,8 +51,8 @@ const Chat = () => {
 
   useEffect(() => {
     socket.emit("userjoin", username);
-    console.log(cardstate);
-    console.log("Socket : ", socket);
+    // console.log(cardstate);
+    // console.log("Socket : ", socket);
   }, []);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on("recieve_chat", (data) => {
-      console.log(data);
+      // console.log(data);
       setarrivalMessage({
         fromSelf: false,
         from: data.from,

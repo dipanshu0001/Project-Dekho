@@ -19,7 +19,6 @@ function ContextProvide({children}) {
       };
       const changeToTime = (data) => {
         const date = new Date(data);
-        // console.log(date.toDateString())
         return date.toDateString()
       }
       // useEffect(()=>{console.log("open called again",open)},[open])

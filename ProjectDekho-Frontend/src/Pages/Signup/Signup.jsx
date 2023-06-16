@@ -67,7 +67,7 @@ const Signup = () => {
     const { name, value } = e.target;
     setData(prev => ({ ...prev, [name]: value }))
   }
-  console.log(state)
+  // console.log(state)
   if (state.accesstoken !== "") {
     return navigate(-1);
   }
