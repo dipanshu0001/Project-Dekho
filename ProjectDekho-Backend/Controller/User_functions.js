@@ -122,18 +122,25 @@ const UpdateProject = async (req, res) => {
   } else if (!Github_react && !Github_node) {
     return res.status(400).send({ message: "Fill Github Links", type: 2 });
   }
-  console.log("hello2")
+
   try {
     let value = Github_react !== "" && Github_node !== "";
     
+    console.log("hello2")
    
-    const file = req.files.Image;
-   
-      cloudinary.v2.uploader.upload(file.tempFilePath, (err, result) => {
+    
+    
+    
+    if(req.files!==null)
+    {
+      const file = req.files.Image;
+      var save ;
+      cloudinary.v2.uploader.upload(file.tempFilePath, async(err, result) => {
+        console.log("hello3")  
         if (err) console.log(err);
-        const uploaded_project =   ProjectModel.findOne({ _id: _id });
-         
-        const new_document = uploaded_project.updateProject({
+        save = result.url;
+        const uploaded_project =  await ProjectModel.findOne({ _id: _id });
+        let new_document = await  uploaded_project.updateProject({
           Uid: Uid,
           Name: Name,
           Description: Description,
@@ -149,20 +156,42 @@ const UpdateProject = async (req, res) => {
           Minprice: parseInt(Minprice),
           Maxprice: parseInt(Maxprice),
         });
+        await uploaded_project.save();
+        
 
-         new_document
-          .save()
-
-          .catch((error) => {
-            console.log("error while saving new project", error);
-          });
       });
+    }else
+    {
+      
+        console.log("hello4")  
+        
+        const uploaded_project =  await ProjectModel.findOne({ _id: _id });
+         
+        let new_document =await uploaded_project.updateProject({
+          Uid: Uid,
+          Name: Name,
+          Description: Description,
+          Github_react: Github_react,
+          Github_node: Github_node,
+          Contact: Contact,
+          Deployed_link,
+          isFullStack: value,
+          Build: parseInt(Build),
+          Industry: Industry,
+          Monetized: Monetized,
+          Minprice: parseInt(Minprice),
+          Maxprice: parseInt(Maxprice),
+        })
+        await uploaded_project.save();
+      
+    }
+    
 
 
     // console.log(uploader_user.Followers)
     return res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
   } catch (e) {
-    // console.log(e.message)
+     console.log(e.message)
     res.status(500).send({ message: "Internal Server Error", type: 3 });
   }
 };

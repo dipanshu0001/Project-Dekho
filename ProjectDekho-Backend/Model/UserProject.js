@@ -189,11 +189,28 @@ ProjectSchema.methods.addNewViewer=async function(uid){
         console.log(err.message);
     }
 }
-ProjectSchema.methods.updateProject = async (data) => {
+ProjectSchema.methods.updateProject = async function(data) {
     try {
-        // console.log(data)
-        this.save();
-        return this.Following
+         console.log(data)
+        this.Uid = data.Uid;
+        this.Name =data.Name;
+        this.Description = data.Description;
+        this.Github_node = data.Github_node;
+        this.Github_react = data.Github_react;
+        this.Contact = data.Contact;
+        this.Deployed_link = data.Deployed_link;
+        this.isFullStack = data.isFullStack;
+        this.Build=data.Build;
+        this.Industry = data.Industry;
+        this.Monetized = data.Monetized;
+        this.Maxprice = data.Maxprice;
+        this.Minprice = data.Minprice;
+        if(data.Image)
+        {
+            this.Image = data.Image;
+        }
+        await this.save();
+        return this.imageurl;
     } catch (err) {
         console.log("UnFollowing err", err)
     }
