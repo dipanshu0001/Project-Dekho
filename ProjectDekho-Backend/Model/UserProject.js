@@ -210,7 +210,7 @@ ProjectSchema.methods.updateProject = async function(data) {
             this.Image = data.Image;
         }
         await this.save();
-        return this.imageurl;
+        return this;
     } catch (err) {
         console.log("UnFollowing err", err)
     }

@@ -157,6 +157,8 @@ const UpdateProject = async (req, res) => {
           Maxprice: parseInt(Maxprice),
         });
         await uploaded_project.save();
+        return res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1,data:new_document });
+        
         
 
       });
@@ -183,13 +185,14 @@ const UpdateProject = async (req, res) => {
           Maxprice: parseInt(Maxprice),
         })
         await uploaded_project.save();
+        return res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
       
     }
     
 
 
     // console.log(uploader_user.Followers)
-    return res.status(200).send({ message: "Project Uploaded Sucessfully", type: 1 });
+    
   } catch (e) {
      console.log(e.message)
     res.status(500).send({ message: "Internal Server Error", type: 3 });
