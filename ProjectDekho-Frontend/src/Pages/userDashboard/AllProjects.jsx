@@ -151,6 +151,7 @@ const AllProjects = ({ state }) => {
           setAllProjects(alldata.data.result);
           handleClose();
           setOpen(false);
+          setImages('');
       })
       .catch((err) => {
           console.error('Error:', err);
@@ -208,7 +209,7 @@ const AllProjects = ({ state }) => {
       setAllProjects(data.data.result);
     };
     getAllProjects();
-  },[setShow]);
+  },[]);
 
   return (
     <>

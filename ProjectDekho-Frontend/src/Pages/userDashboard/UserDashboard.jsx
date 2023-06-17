@@ -79,7 +79,7 @@ const UserDashboard = () => {
   return (
     <>
     <div style={{display:'flex' , maxHeight:'100vh'}}>
-    <div  className={`sidebar ${expanded && "expanded"}`} >
+    <div  className={`sidebar ${expanded && "expanded"}`}  >
       {menuItems.map((item, index) => {
         let middle = false;
         if (!(index === 0 || index === menuItems.length - 1)) {
@@ -138,7 +138,7 @@ const UserDashboard = () => {
       })}
       
     </div>
-    <div className="content">
+    <div className="content" style={{width:'80%'}}>
     {active===1 && <UserDetails/>}
     {active===2 && <AllProjects state={state}/>}
     {active===3 &&  <UserChat />}
