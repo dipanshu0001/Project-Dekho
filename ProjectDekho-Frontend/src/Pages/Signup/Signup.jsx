@@ -5,13 +5,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import Carousel from '../Carousel/Carousel';
 import axios from 'axios';
 import * as yup from 'yup';
+import VerficationModal from './VerficationModal';
 import { useFunction } from '../../Common_function_context/ContextProvide';
+import { Button as TailwindButton } from "@material-tailwind/react";
+
 
 
 const Signup = () => {
   const state = useSelector(state => state.UserReducer)
   const navigate = useNavigate();
   const { set_err } = useFunction();
+  const [Modalopen, setModalOpen] = useState(false);
+  const [iseverfied, setverfied] = useState(true)
   const [data, setData] = useState({
     Username: "",
     Gmail: "",
@@ -43,23 +48,30 @@ const Signup = () => {
   // ! handelSubmit to store usr Data in DB
   const handleSubmit = async () => {
     try {
+      // setModalOpen(prev=>true)
       const img_form = new FormData();
-      try{
-      const avatar = await fetch(`https://ui-avatars.com/api/?name=${data.Username.split(' ').join('+')}&background=random`)
-        .then(response => response.blob())
+      try {
+        const avatar = await fetch(`https://ui-avatars.com/api/?name=${data.Username.split(' ').join('+')}&background=random`)
+          .then(response => response.blob())
         img_form.append('avatar', avatar);
-      }catch(e){
+      } catch (e) {
         console.log(e)
       }
       // console.log(img_form);
-      img_form.append("userDetails",JSON.stringify(data))
-      const result = await axios.post("http://localhost:4000/Api/Register", img_form);
-      set_err(result.data.message, result.data.type)
-      navigate('/login');
+      img_form.append("userDetails", JSON.stringify(data))
+      if (Modalopen === false) {
+        // console.log(Modalopen)
+        const result = await axios.post("http://localhost:4000/Api/Register", img_form);
+        set_err(result.data.message, result.data.type)
+        navigate('/login');
+      }
     } catch (e) {
       // set_err(e.response.data.error, e.response.data.type)
       console.log(e)
     }
+  }
+  const handleVerify = async () => {
+    setModalOpen(true);
   }
   //! Change function to store chang in each input fieds
 
@@ -102,7 +114,7 @@ const Signup = () => {
                       value={data.Username}
                       onChange={handleChange}
                       onBlur={handleValidation}
-                      
+
                       required />
                   </div>
                   {error.Username && <small style={{ color: "red" }} >{error.Username}</small>}
@@ -175,8 +187,13 @@ const Signup = () => {
                     />
 
                   </div>
+                  <center>
+                    <TailwindButton onClick={handleVerify} disable={!iseverfied}>
+                      verify Email to Register
+                    </TailwindButton>
+                  </center>
                   <div className="button input-box">
-                    <input type="submit" value="Submit" onClick={handleSubmit} />
+                    <input type="submit" value="Register" onClick={handleSubmit} disabled={iseverfied} title='verfiy email' />
                   </div>
                   <div className="text sign-up-text">
                     Already have an account? <Link to="/login">Login now</Link>
@@ -236,6 +253,7 @@ const Signup = () => {
         <div className="cover">
           <Carousel />
         </div>
+        {Modalopen && <VerficationModal Modalopen={Modalopen} setModalOpen={setModalOpen} user_gmail={data.Gmail} setverfied={setverfied} />}
       </div>
     </div>
   );

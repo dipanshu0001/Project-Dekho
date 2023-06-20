@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary");
 const fileupload = require("express-fileupload");
+const session=require("express-session");
+
 
 const { Server } = require("socket.io");
 const messageRoutes = require("./Routes/messageRoutes");
@@ -13,6 +15,11 @@ dotenv.config();
 const app = express();
 app.use(cookieParser());
 
+app.use(session({
+  secret: 'ProjectDekhoadmin',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -28,7 +35,7 @@ app.use(
     useTempFiles: true,
   })
 );
-// !To add /Api as starting rout to all Routes
+// !To add /Api as starting route to all Routes
 // app.use((req, res, next) => {
 //     req.url = '/Api' + req.url;
 //     next();

@@ -33,6 +33,7 @@ import Footer from './components/Footer'
 import User_profile from './Pages/User_Profile/User_profile'
 import WithoutNavbar from './WithoutNavbar'
 import WithNavbar from './WithNavbar'
+import VerficationModal from './Pages/Signup/VerficationModal'
 
 
 
@@ -95,6 +96,7 @@ const App = () => {
               <Route  path="/card" element={<Cards />} />
               <Route  path="/homes" element={<Homes />} />
               <Route  path="/ViewAll" element={<ViewAllProjects />} />
+              <Route path="/verify/:user_gmail" element={<VerficationModal />} />
               <Route  path='*' element={<User_profile uid="0e22ba00-1558-48b8-b543-9aa624d7dba2"/>}/> 
            </Route>
  

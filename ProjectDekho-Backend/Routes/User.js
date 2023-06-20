@@ -1,6 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const { AddProject, CheckReactRepo,CheckNodeRepoMiddleware,Get_User,CheckReactRepoMiddleware,CheckNodeRepo,SaveProject,unSaveProject,userFollow, UpdateProject} = require('../Controller/User_functions.js')
+const {sendMailuser,Verify}=require('../Controller/Additional_features_project.js')
 
 
 Router.post('/Addproject', AddProject)
@@ -11,4 +12,6 @@ Router.post('/Addproject', AddProject)
       .post('/SaveProject', SaveProject)
       .post('/unSaveProject', unSaveProject)
       .post('/Followers/:Login_user_id/:type/:Uid/:issubscribe/:Gmail',userFollow)
+      .post('/SendOTP',sendMailuser)
+      .post('/Verify',Verify);
 module.exports = Router;

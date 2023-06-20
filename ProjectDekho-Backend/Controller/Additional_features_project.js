@@ -1,6 +1,8 @@
+const { request } = require('express');
 const userModel = require('../Model/UserModel')
 const projectModel = require('../Model/UserProject')
 const nodemailer = require("nodemailer");
+
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -150,11 +152,50 @@ const sendMailToSubscribers = (subscribedmail, subscriberdarray, Username, uid, 
         }
     });
 }
+const Verify = (req, res) => {
+    const { otp } = req.body;
+    console.log(req.session.userotp)
+    if (req.session.userotp && otp == req.session.userotp) {
+        return res.status(200).json({ message: "Verifaction successfully", type: 1, issuccessfull: true })
+    } else {
+        return res.status(401).json({ issuccessfull: false, message: "invalid otp", tyep: 3 })
+    }
+}
+const sendMailuser = (req, res) => {
+    const otp = Math.floor(Math.random() * 100000);
+const {user_gmail}=req.body;
+    // console.log(otp, "otp",req.body);
+
+    const mailContent = {
+        from: process.env.GMAIL,
+        to: user_gmail,
+        subject: 'New Article Notification',
+        html: `
+      <p>Otp for Gmail verification</p>
+      <h2> Valid for only 1 minute</h2>
+      <h1>${otp}</h1>
+    `
+    };
+
+    transporter.sendMail(mailContent, (error, info) => {
+        if (error) {
+            console.log(`Otp mail send failed to :`, error);
+            return res.status(500).json({ message: "Internal Server Error", type: 2, issuccessfull: false });
+        } else {
+            req.session.userotp = otp;
+            setTimeout(() => { req.session.userotp=""}, 60000);
+            // console.log(`Otp mail sent successfully to :`, otp);
+            return res.status(200).json({ message: "Otp Send Successfully", type: 3, issuccessfull: true });
+        }
+    });
+}
 module.exports = {
     getTopLiked,
     getDistinctIndustry,
     getData,
-    sendMailToSubscribers
+    sendMailToSubscribers,
+    Verify,
+    sendMailuser
 }
 // {
 //     $sort: {
