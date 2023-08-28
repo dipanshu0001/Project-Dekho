@@ -59,14 +59,12 @@ const Signup = () => {
       }
       // console.log(img_form);
       img_form.append("userDetails", JSON.stringify(data))
-      if (Modalopen === false) {
         // console.log(Modalopen)
         const result = await axios.post("http://localhost:4000/Api/Register", img_form);
         set_err(result.data.message, result.data.type)
         navigate('/login');
-      }
     } catch (e) {
-      // set_err(e.response.data.error, e.response.data.type)
+      set_err(e.response.data.error, e.response.data.type)
       console.log(e)
     }
   }

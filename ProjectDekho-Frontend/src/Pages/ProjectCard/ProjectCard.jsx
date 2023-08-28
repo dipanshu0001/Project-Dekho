@@ -18,7 +18,7 @@ import Right_drawer from '../View_detail/Right_drawer';
 const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Image, isFullStack, timestamp, comments, likePeople, Viewcount, Vieweduser }) => {
   const navigate = useNavigate();
   const userstate = useSelector(state => state.UserReducer)
-  const { set_err, setOpen ,setProjectcounter,Projectcounter} = useFunction();
+  const { set_err, setOpen, setProjectcounter, Projectcounter } = useFunction();
   const [liked, setLiked] = useState(0);
   const [disliked, setDisliked] = useState(0);
   const [animate, setAnimate] = useState(null);
@@ -69,7 +69,6 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
   const handlecomment = async () => {
     try {
       setOpen(true); // Show the Backdrop component
-
       const result = await axios.post(`http://localhost:4000/Api/Projects/comment/${userstate.Uid}/${_id}`, { comment: new_comment });
       setalreadycomment([...result.data.new_comments]);
       setcomment("");
@@ -85,6 +84,12 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
       set_err("Your were Not logged in", 2)
       navigate('/login')
     }
+    else if (userstate.Uid === Uid) {
+      set_err("cant like Your own project", 2);
+      return;
+    }
+    // console.log(userstate.uid);
+    // console.log(Uid);
     increase_like();
     setAnimate(true)
     setLiked(1);
@@ -95,6 +100,10 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
     if (userstate.accesstoken === "") {
       set_err("Your were Not logged in", 2)
       navigate('/login')
+    }
+    else if (userstate.Uid === Uid) {
+      set_err("cant like Your own project", 2);
+      return;
     }
     increase_dislike();
     setDisliked(1)
@@ -114,7 +123,7 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
       // console.log(update_count.data)
       setviewedcount(update_count.data.new_list_length)
       navigate(`/Project/${_id}/${Uid}`)
-      setProjectcounter(prev=>prev+1)
+      setProjectcounter(prev => prev + 1)
     } catch (err) {
       console.log(err.message)
     }
@@ -156,8 +165,7 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
     }
     get_user();
     get_liked();
-    // get_disliked();
-  }, [viewedcount,Projectcounter]);
+  }, [viewedcount, Projectcounter]);
   return (
     <div className="projectcard" >
       <article
@@ -183,7 +191,7 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
 
               className="ItemPreviewPopOutButton-module_root-V4pNw"
               data-popup-button="true"
-              // onClick={HandleviewDetail}
+            // onClick={HandleviewDetail}
             >
               <button
                 className="ItemPreviewPopOutButton-module_popupButton-NIvxj"
@@ -203,12 +211,12 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
         <div className="ContentGridItem-module_content-IvPkp">
           <header className="ContentGridItemHeader-module_root-V6iQb">
             <a
-              href="/AJulietteDev"
+              href={`/user_profile/${Uid}`}
               className="ContentGridItemHeader-module_authorAvatar-CWlbG"
             >
               <img
                 src={user_details?.ProfileImage}
-                alt="Profile image for Juliette"
+                alt={`Profile image for ${user_details?.Username}`}
                 className="user-avatar"
                 width="40"
                 height="40"
@@ -220,7 +228,7 @@ const ProjectCard = ({ _id, Name, Uid, Description, Contact, Deployed_link, Imag
                 title="Web-developer"
               >
                 <a
-                  href="/AJulietteDev"
+                  href={`/user_profile/${Uid}`}
                   className="ContentGridItemHeader-module_authorName-DVdVc"
                 >
                   {user_details?.Username}

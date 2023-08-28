@@ -43,17 +43,17 @@ function View_detail() {
     likePeople: [],
     comments: [],
     Image: ""
-    
+
   }); //! STORING CARD DETAILS USER CLICKED TO VIEW DETAILS ON
   const [userdata, setUser] = useState({
     Followers: []
   }); //! STORING CARD OWNER DETAILS
-  
+
   const [isFollowing, setfollowing] = useState(false);
   const [reloadComponent, setreload] = useState(0);
   const [likecount, setlikecount] = useState(0);
 
-  
+
   //! IF USER LIKE A PROJECT THEN CALLING TO INCREASE LIKE AND STORE ID IN BACKEND
   const increase_like = async () => {
     try {
@@ -62,17 +62,24 @@ function View_detail() {
       const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/likecount/${data._id}/${1}/${userstate.Uid}`);
       setlikecount(prev => result.data.count)
       setProjectcounter(prev => prev + 1)
-      
+
     } catch (e) {
       console.log(e.response.data)
     }
   }
+
+  //! IF USER LIKE A PROJECT THEN CALLING TO LIKE CHANGER THE STATE ACCORDINGLY AND CALLING INCREASE_LIKE()
+
   const handlelike = () => {
     // console.log(`${userstate.Username} like ${cardstate.Username} post`)
 
     if (userstate.accesstoken === "") {
       set_err("Your were Not logged in", 2)
       navigate('/login')
+    }
+    else if (userstate.Uid === uid) {
+      set_err("cant Like Your own project", 2);
+      return;
     }
     socket.emit("like", { from: userstate.Username, to: cardstate.Username });
     increase_like();
@@ -81,10 +88,17 @@ function View_detail() {
     setDisliked(0);
     setTimeout(() => setAnimate(false), 2000)
   }
+
+  //! IF USER WANT TO SAVE/UNSAVE PROJECT THEN MAKING CHANGES STATE ACCORDINGLY AND STORING THE PROJECT DETAILS ON USERS ACCOUNT
+
   const handlesave = async (value) => {
     if (userstate.accesstoken === "") {
       set_err("Your were Not logged in", 2)
       navigate('/login')
+    }
+    else if (userstate.Uid === uid) {
+      set_err("cant save Your own project", 2);
+      return;
     }
     if (value === true) {
       try {
@@ -111,7 +125,7 @@ function View_detail() {
       } catch (err) {
         setOpen(false);
         set_err(err.response.data.message, err.response.data.type);
-        
+
       }
     }
     // setSaved(prev => value)
@@ -127,7 +141,7 @@ function View_detail() {
 
       socket.emit("like", { from: userstate.Username, to: cardstate.Username });
       // console.log(`${userstate.Username} like ${cardstate.Username} post`)
-      
+
     } catch (e) {
       console.log(e.response.data)
     }
@@ -141,11 +155,12 @@ function View_detail() {
     setDisliked(1)
     increase_dislike();
   }
-  
 
+//!FUNCTION FO GETTING CHAT WHITH PARTICULAR USER PREVIOUS CHATS
   const handlechat = () => {
     navigate('/chat');
   }
+  //! UF USER WANT TO FOLLOW THE PROJECT UPLOAD USER 
   const handleFollow = async () => {
     if (userstate.accesstoken === "") {
       set_err("Your were Not logged in", 2)
@@ -169,9 +184,10 @@ function View_detail() {
       setOpen(false);
     }
   }
+  //! UF USER WANT TO UNFOLLOW THE PROJECT UPLOAD USER WITH EDGE CASE COVERED
   const handleunFollow = async () => {
     if (userstate.Uid === uid) return
-    console.log("unFollowed was called")
+    // console.log("unFollowed was called")
 
     try {
       setOpen(true)
@@ -180,22 +196,20 @@ function View_detail() {
       setOpen(false);
       set_err(result.data.message, result.data.type);
       setfollowing(false)
-      
+
     } catch (err) {
       // console.log(err);
       setOpen(false);
     }
   }
 
-  
+
   useEffect(() => {
     // console.log("Socket : ", socket);
     socket.emit("userjoin", userstate.Username);
   }, []);
   useEffect(() => {
     const get_data = async () => {
-      // console.log(uid, _id)
-      // console.log(_id,uid)
       try {
         setLoaded(true);
         const result = await axios.post(`${process.env.REACT_APP_PROXY}/Projects/Get_ParticularProject`, { _id })
@@ -241,7 +255,7 @@ function View_detail() {
       setfollowing(true);
     }
 
-  }, [reloadComponent,isFollowing]);
+  }, [reloadComponent, isFollowing]);
   return (
     <>
       {
@@ -308,7 +322,7 @@ function View_detail() {
                   </div>
                   <div className="saved-section">
                     {
-                      !saved ? (<CiBookmarkPlus size={30}  onClick={() => handlesave(true)} />) : (<BsFillBookmarkPlusFill size={25}  onClick={() => handlesave(false)} />)
+                      !saved ? (<CiBookmarkPlus size={30} onClick={() => handlesave(true)} />) : (<BsFillBookmarkPlusFill size={25} onClick={() => handlesave(false)} />)
                     }
                   </div>
 
@@ -416,7 +430,7 @@ function View_detail() {
               </div>
             </div>
             <div className="user-profile-div">
-              <User_profile uid={uid} onFollow={handleFollow} onUnFollow={handleunFollow} isFollowing={isFollowing} setfollowing={setfollowing}/>
+              <User_profile uid={uid} onFollow={handleFollow} onUnFollow={handleunFollow} isFollowing={isFollowing} setfollowing={setfollowing} />
             </div>
           </div>
 

@@ -8,7 +8,8 @@ const { getAllProjects,
     Get_ParticularProject,
     Get_ParticularProject_User,
     handleviewcount,
-    Get_Saved_Projects
+    Get_Saved_Projects,
+    handleReportProject
 } = require('../Controller/Projects_func')
 const {
     getTopLiked,
@@ -28,6 +29,7 @@ Router.get('/allProjects/:limit', getAllProjects)
     .get('/MostLiked',getTopLiked)
     .get('/DistinctIndustry',getDistinctIndustry)
     .post('/FilteredData',getData)
+    .post('/ReportProject',handleReportProject)
 
 
 module.exports = Router

@@ -34,6 +34,9 @@ import User_profile from './Pages/User_Profile/User_profile'
 import WithoutNavbar from './WithoutNavbar'
 import WithNavbar from './WithNavbar'
 import VerficationModal from './Pages/Signup/VerficationModal'
+import User_profile_hoc from './Pages/User_Profile/User_profile_hoc'
+import User_projects from './Pages/User_Profile/User_projects'
+import About_user from './Pages/User_Profile/About_user.jsx'
 
 
 
@@ -67,39 +70,42 @@ const App = () => {
   // console.log(Cookies.get("refreshToken"))
   return (
     <>
-    { process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_MODE : process.env.REACT_APP_PRO_MODE }
+      {process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_MODE : process.env.REACT_APP_PRO_MODE}
 
       <Router>
-       
+
         {/* {isUserDashboard === 0 && ''}
         {isUserDashboard === 1 && ''}
         {isUserDashboard === 2 && <NavBar />} */}
         {!state.UserReducer.isAdmin && <Admin_chat />}
         <Routes>
-           <Route element={<WithoutNavbar/>}>
-             <Route path="/userDashboard" element={<UserDashboard />} />
-             <Route  path='/login' element={<Login />} />
-              <Route  path='/signup' element={<Signup />} />
-           </Route>
-            <Route element={<WithNavbar/>}>
-              
-              <Route  path='/' element={<Landing />} />
+          <Route element={<WithoutNavbar />}>
+            <Route path="/userDashboard" element={<UserDashboard />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Route>
+          <Route element={<WithNavbar />}>
 
-              <Route path='/Form' element={<Modal_form />} />
-              <Route path='/contact' element={<Contact />} />
-              <Route path="/Project/:_id/:uid" element={<View_detail />} />
-              <Route  path="/home" element={<Admin_chat />} />
-              <Route  path="/noti" element={<Notify />} />
-              <Route  path="/chat" element={<Chat />} />
-              <Route  path="/admin" element={<AdminChat />} />
-              <Route  path="/user" element={<UserChat />} />
-              <Route  path="/card" element={<Cards />} />
-              <Route  path="/homes" element={<Homes />} />
-              <Route  path="/ViewAll" element={<ViewAllProjects />} />
-              <Route path="/verify/:user_gmail" element={<VerficationModal />} />
-              <Route  path='*' element={<User_profile uid="0e22ba00-1558-48b8-b543-9aa624d7dba2"/>}/> 
-           </Route>
- 
+            <Route path='/' element={<Landing />} />
+            <Route path='/Form' element={<Modal_form />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path="/Project/:_id/:uid" element={<View_detail />} />
+            <Route path="/home" element={<Admin_chat />} />
+            <Route path="/noti" element={<Notify />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/admin" element={<AdminChat />} />
+            <Route path="/user" element={<UserChat />} />
+            <Route path="/card" element={<Cards />} />
+            <Route path="/homes" element={<Homes />} />
+            <Route path="/ViewAll" element={<ViewAllProjects />} />
+            <Route path="/verify/:user_gmail" element={<VerficationModal />} />
+            <Route path="/user_profile/:uid" element={<User_profile_hoc />} >
+              <Route  path="about" element=<About_user /> />
+              <Route index path="*" element=<User_projects /> />
+            </Route>
+            <Route path='*' element={<User_profile uid="0e22ba00-1558-48b8-b543-9aa624d7dba2" />} />
+          </Route>
+
         </Routes>
         {/* <Footer /> */}
         <ToastContainer />

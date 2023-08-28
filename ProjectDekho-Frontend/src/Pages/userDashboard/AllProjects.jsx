@@ -126,7 +126,7 @@ const AllProjects = ({ state }) => {
       formdata.append("Build", data.Build);
       formdata.append("Monetized", data.Monetized);
       const result = await axios.post(
-        "http://localhost:4000/Api/User/UpdateProject",
+        `${process.env.REACT_APP_PROXY}/User/UpdateProject`,
         formdata
       );
       set_err(result.data.message, result.data.type);
@@ -166,13 +166,13 @@ const AllProjects = ({ state }) => {
 
   const handleGithubReact = async () => {
     if (data.Github_react === "") return;
-    console.log(data.Github_react);
+    // console.log(data.Github_react);
     try {
       const result = await axios.post(
-        "http://localhost:4000/Api/User/CheckReactRepo",
+        `${process.env.REACT_APP_PROXY}/User/CheckReactRepo`,
         { link: data.Github_react }
       );
-      console.log(result.data);
+      // console.log(result.data);
       // set_err(result.data.message, result.data.type)
       // setData(prev=>({...prev,Github_react:""}))
     } catch (e) {
@@ -184,7 +184,7 @@ const AllProjects = ({ state }) => {
     if (data.Github_node === "") return;
     try {
       const result = await axios.post(
-        "http://localhost:4000/Api/User/CheckNodeRepo",
+        `${process.env.REACT_APP_PROXY}/User/CheckNodeRepo`,
         { link: data.Github_node }
       );
       // console.log(result.data);

@@ -1,5 +1,5 @@
 import React from 'react'
-import './User_profile.css'
+import './css/User_profile.css'
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 // import { Paper } from "@material-ui/core";

@@ -1,0 +1,34 @@
+.profile-hoc-main{
+    display: flex;
+    justify-content: space-between;
+    width:90%;
+    margin:auto;
+    gap:10px;
+}
+
+.profile-hoc-main .hoc-profile{
+    width:20%;
+    border-left: 1px solid gray;
+    background-color: rgb(250, 250, 250);
+}
+.profile-hoc-main .hoc-project{
+    width:70%;
+}
+.profile-hoc-main .hoc-project .more_detail_div{
+    /* padding:0px 10px; */
+}
+.profile-hoc-main .hoc-project .more_detail_div ul{
+    border-bottom:1px solid rgb(164, 163, 163);
+    
+    cursor: pointer ;   
+    display: flex;
+    flex:1 1 auto;
+    gap:20px;
+    padding:0px;
+    /* padding:0px 10px; */
+    /* background-color: red; */
+}
+.profile-hoc-main .hoc-project .more_detail_div ul .active{
+    padding-bottom: 16px;
+    border-bottom: 2px solid black;
+}

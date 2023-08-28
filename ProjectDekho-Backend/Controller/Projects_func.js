@@ -1,5 +1,7 @@
 const projectModel = require('../Model/UserProject')
 const userModel = require('../Model/UserModel')
+const ReportModal=require('../Model/Report_project')
+
 const getAllProjects = async (req, res) => {
     const {limit}=req.params
     try {
@@ -203,6 +205,19 @@ const handleviewcount = async (req, res) => {
         res.status(500).send(err.message);
     }
 }
+
+const handleReportProject=async(req,res)=>{
+const{user_logged_uid,report_reason,project_id,project_user_uid}=req.body;
+console.log(req.body);
+const new_report= new ReportModal({
+    user_id:user_logged_uid,
+    report_reason:report_reason,
+    project_id:project_id,
+    project_user_uid:project_user_uid
+})
+new_report.save().then(savedDocument=>console.log(savedDocument)).catch
+return res.send({message:"Reported Successfully",type:2})
+}
 module.exports = {
     getAllProjects,
     like_count_handler,
@@ -212,5 +227,6 @@ module.exports = {
     Get_ParticularProject,
     Get_ParticularProject_User,
     Get_Saved_Projects,
-    handleviewcount
+    handleviewcount,
+    handleReportProject
 }
