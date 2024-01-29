@@ -37,7 +37,7 @@ function User_profile({ uid, onFollow, onUnFollow, isFollowing, setfollowing }) 
         }
         try {
             setOpen(true);
-            const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${2}/${uid}/true/${userstate.Gmail}`
+            const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${2}/${uid}/true/${userstate.Gmail}/${userstate.ProfileImage}/${userstate.Username}`
             const result = await axios.post(url);
             Dispatch(UpdateFollowing(result.data.new_list))
             setfollowing(true);
@@ -60,7 +60,7 @@ function User_profile({ uid, onFollow, onUnFollow, isFollowing, setfollowing }) 
         }
         try {
             setOpen(true);
-            const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${3}/${uid}/false/${userstate.Gmail}`
+            const url = `${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${3}/${uid}/false/${userstate.Gmail}/${userstate.ProfileImage}/${userstate.Username}`
             const result = await axios.post(url);
             // console.log(result.data.new_list)
             Dispatch(UpdateFollowing(result.data.new_list))
@@ -110,7 +110,7 @@ function User_profile({ uid, onFollow, onUnFollow, isFollowing, setfollowing }) 
                             </div>
                             <div className="user-buttons">
                                 <Tooltip content={!isFollowing ? `Follow ${userdata.Username}` : `Following ${userdata.Username}`}>
-                                    <TailwindButton onClick={!isFollowing ? onFollow : onUnFollow}>{isFollowing ? "Following" : "Follow"}</TailwindButton>
+                                    <TailwindButton onClick={()=>!isFollowing ? onFollow(uid) : onUnFollow(uid)}>{isFollowing ? "Following" : "Follow"}</TailwindButton>
                                 </Tooltip>
                                 <Tooltip
                                     content={!issubscribe ? `You will get mail as soon as ${userdata.Username} upload a new project` : `You are subscribed to ${userdata.Username}`}>

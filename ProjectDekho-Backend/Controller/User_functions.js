@@ -330,6 +330,7 @@ const CheckNodeRepoMiddleware = async (req, res, next) => {
 
     // ! Now checking if react is their in dependencies object or not
     if ("express" in dependencies) {
+      console.log(dependencies)
       // return res.status(200).json({ message: "Repository contains code related to Express" ,type:1});
       next();
     } else {
@@ -404,7 +405,8 @@ const unSaveProject = async (req, res) => {
 };
 
 const userFollow = async (req, res) => {
-  const { Login_user_id, type, Uid, issubscribe, Gmail } = req.params;
+  const { Login_user_id, type, Uid, issubscribe, Gmail ,ProfileImage,Username} = req.params;
+  // console.log(req)
   // console.log(req.params);
   console.log(req.params, "params");
   try {
@@ -421,7 +423,9 @@ const userFollow = async (req, res) => {
         );
       const updated_user_follower_list = await user_detail.handleFollowers(
         Login_user_id,
-        Gmail
+        Gmail,
+        ProfileImage,
+        Username
       );
       return res.status(200).json({
         message: `Following  ${user_detail.Username}`,

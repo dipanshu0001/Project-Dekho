@@ -173,14 +173,14 @@ function View_detail() {
     }
     try {
       setOpen(true)
-      const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${0}/${uid}/false/${userstate.Gmail}`)
-      // console.log(result.data)
+      const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${0}/${uid}/false/${userstate.Gmail}/${userstate.ProfileImage}/${userstate.Username}`)
+      console.log(result.data)
       Dispatch(UpdateFollowing(result.data.new_list))
       setOpen(false);
       set_err(result.data.message, result.data.type);
       setfollowing(true)
     } catch (err) {
-      // console.log(err);
+      console.log(err);
       setOpen(false);
     }
   }
@@ -191,14 +191,14 @@ function View_detail() {
 
     try {
       setOpen(true)
-      const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${1}/${uid}/false/${userstate.Gmail}`)
+      const result = await axios.post(`${process.env.REACT_APP_PROXY}/User/Followers/${userstate.Uid}/${1}/${uid}/false/${userstate.Gmail}/${userstate.ProfileImage}/${userstate.Username}`)
       Dispatch(UpdateFollowing(result.data.new_list))
       setOpen(false);
       set_err(result.data.message, result.data.type);
       setfollowing(false)
 
     } catch (err) {
-      // console.log(err);
+      console.log(err);
       setOpen(false);
     }
   }
@@ -249,7 +249,7 @@ function View_detail() {
     if (found !== undefined) {
       setSaved(true);
     }
-    const following = userstate.Following.find((ele) => ele.User_id === uid);
+    const following = userstate.Following.find((ele) => ele.User_id === uid); 
     if (following !== undefined) {
       // console.log(userstate.Username)
       setfollowing(true);

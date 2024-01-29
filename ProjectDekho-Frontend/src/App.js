@@ -37,6 +37,8 @@ import VerficationModal from './Pages/Signup/VerficationModal'
 import User_profile_hoc from './Pages/User_Profile/User_profile_hoc'
 import User_projects from './Pages/User_Profile/User_projects'
 import About_user from './Pages/User_Profile/About_user.jsx'
+import Following from './Pages/User_Profile/Following.jsx'
+import Follower from './Pages/User_Profile/Follower.jsx'
 
 
 
@@ -100,9 +102,13 @@ const App = () => {
             <Route path="/ViewAll" element={<ViewAllProjects />} />
             <Route path="/verify/:user_gmail" element={<VerficationModal />} />
             <Route path="/user_profile/:uid" element={<User_profile_hoc />} >
-              <Route  path="about" element=<About_user /> />
+              <Route path="about" element=<About_user />/>
+              <Route path="Followings" element=<Following />/>
+              <Route path="Followers" element=<Follower />/>
               <Route index path="*" element=<User_projects /> />
             </Route>
+            <Route path="/user_profile/:uid/about/Followings" element =<Following/>/>
+            <Route path="/user_profile/:uid/about/Followers" element=<Follower/>/>
             <Route path='*' element={<User_profile uid="0e22ba00-1558-48b8-b543-9aa624d7dba2" />} />
           </Route>
 
